@@ -8,15 +8,23 @@
     "build": "tsc && node dist",
     "lint": "./node_modules/.bin/eslint .",
     "lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "yarn mocha test/* -r ts-node/register"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.4",
     "@types/express": "^4.17.14",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.9",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
+    "chai": "^4.3.7",
     "eslint": "^8.30.0",
-    "nodemon": "^2.0.20"
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@prisma/client": "^4.8.0",
