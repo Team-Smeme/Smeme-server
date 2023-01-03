@@ -1,8 +1,9 @@
 // src/index.ts
 import express, { Request, Response } from "express";
+import config from "./config";
 
 const app = express(); // express 객체 받아옴
-const PORT = 3000; // 사용할 port를 3000번으로 설정
+const PORT = config.port; // 사용할 port를 3000번으로 설정
 
 app.use(express.json()); // express 에서 request body를 json 으로 받아오겠다.
 
