@@ -26,4 +26,8 @@ export default {
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: "서버 내부 오류",
+
+  // 추천 관련
+  LIKE_SUCCESS: "추천 성공",
+  UNLIKE_SUCCESS: "추천 해제 성공",
 };
