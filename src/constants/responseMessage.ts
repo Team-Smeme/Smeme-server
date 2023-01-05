@@ -15,4 +15,12 @@ export default {
   // 유저
   MY_PAGE_SUCCESS: "나의 스밈 조회 성공",
   NO_USER: "탈퇴했거나 가입하지 않은 유저입니다.",
+
+  // 토큰
+  CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
+  EXPIRED_TOKEN: "토큰이 만료되었습니다.",
+  EXPIRED_ALL_TOKEN: "모든 토큰이 만료되었습니다.",
+  INVALID_TOKEN: "유효하지 않은 토큰",
+  VALID_TOKEN: "유효한 토큰입니다.",
+  EMPTY_TOKEN: "토큰 값이 없습니다.",
 };
