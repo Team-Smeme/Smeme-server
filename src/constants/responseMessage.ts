@@ -30,4 +30,12 @@ export default {
   // 추천 관련
   LIKE_SUCCESS: "추천 성공",
   UNLIKE_SUCCESS: "추천 해제 성공",
+
+  // 일기 관련
+  CREATE_DIARY_SUCCESS: "일기 작성 성공",
+  GET_DIARY_LIST_SUCCESS: "일기 목록 조회 성공",
+  GET_DIADY_SUCCESS: "일기 상세 조회 성공",
+  UPDATE_DIARY_SUCCESS: "일기 수정 성공",
+  DELETE_DIARY_SUCCESS: "일기 삭제 성공",
+  BAD_DIARY_ID: "잘못된 일기 id",
 };
