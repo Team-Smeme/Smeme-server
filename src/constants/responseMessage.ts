@@ -23,4 +23,7 @@ export default {
   INVALID_TOKEN: "유효하지 않은 토큰",
   VALID_TOKEN: "유효한 토큰입니다.",
   EMPTY_TOKEN: "토큰 값이 없습니다.",
+
+  // 서버 내 오류
+  INTERNAL_SERVER_ERROR: "서버 내부 오류",
 };
