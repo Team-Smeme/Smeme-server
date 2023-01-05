@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.0",
+    "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
