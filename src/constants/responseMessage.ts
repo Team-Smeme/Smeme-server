@@ -45,4 +45,7 @@ export default {
 
   // 주제 관련
   GET_TOPIC_SUCCESS: "랜덤 주제 조회 성공",
+
+  // 카테고리 관련
+  GET_CATEGORY_SUCCESS: "카테고리 조회 성공",
 };
