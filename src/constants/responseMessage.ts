@@ -38,4 +38,8 @@ export default {
   UPDATE_DIARY_SUCCESS: "일기 수정 성공",
   DELETE_DIARY_SUCCESS: "일기 삭제 성공",
   BAD_DIARY_ID: "잘못된 일기 id",
+
+  // 스크랩
+  SCRAP_SUCCESS: "구문 스크랩 성공",
+  GET_SCRAP_LIST_SUCCESS: "스크랩 구문 목록 조회 성공",
 };
