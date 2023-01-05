@@ -11,4 +11,8 @@ export default {
   SIGNIN_FAIL: "소셜로그인 실패",
   ALREADY_NICKNAME: "이미 사용중인 닉네임입니다.",
   INVALID_PASSWORD: "잘못된 비밀번호입니다.",
+
+  // 유저
+  MY_PAGE_SUCCESS: "나의 스밈 조회 성공",
+  NO_USER: "탈퇴했거나 가입하지 않은 유저입니다.",
 };
