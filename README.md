@@ -2,14 +2,14 @@
 
 ## ERD
 
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/02764e2e-0034-4e8c-9da9-fff6bb087e80/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230104%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230104T114646Z&X-Amz-Expires=86400&X-Amz-Signature=1c78092ee2106f68c230736897b18decb1db749da1915148bae29ec4dc46cc63&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject" />
+<img width="802" src="https://user-images.githubusercontent.com/81692211/210778101-46a8c449-cb02-4879-838e-5c1828af5747.png">
 
 # 팀별 역할 분담
 
 |                **🌏 [김소현](https://github.com/thguss)**                 |                **🌏 [최윤한](https://github.com/unanchoi)**                 |
   |:-----------------------------------:|:-----------------------------------:|
-| [![FVCproductions](https://avatars.githubusercontent.com/u/55437339?v=4)]() |[![FVCproductions](https://avatars.githubusercontent.com/u/81692211?v=4)]() |
-|                                 서버 개발자                                 |                                 서버 개발자                                 |
+| <img src="https://user-images.githubusercontent.com/81692211/210775327-2b1f663d-4f55-46dd-881a-34c978aa621f.jpg" width="300" height="300" /> |<img src ="https://avatars.githubusercontent.com/u/81692211?v=4" width="300" height="300" /> |
+|                                 서버 개발자                                  |                                 서버 개발자                                 |
 |        프로젝트 세팅<br />서버 배포<br />DB 설계<br /> Diary, Category, Scrap API 작성<br /> Test Code 작성 <br />        |        프로젝트 세팅<br />서버 배포<br />DB 설계<br >User, Auth, Diary  API 작성<br /> Test Code 작성        |
 
 # 🗂 프로젝트 폴더 구조
