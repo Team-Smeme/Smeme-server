@@ -17,10 +17,4 @@ router.post(
   diaryController.createDiary,
 );
 
-// 게시판 조회
-
-// 게시판 일기 상세 조회
-
-// 게시판 일기 추천
-
 export default router;
