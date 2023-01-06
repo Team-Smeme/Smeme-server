@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { UserController } from "../controllers";
+import { userController } from "../controllers";
 
 const router: Router = Router();
 
-router.patch("/", UserController.updateUserInfo);
+router.patch("/", userController.updateUserInfo);
 
 export default router;

@@ -1,7 +1,7 @@
 import { AuthRequestDto } from "../interfaces/auth/AuthRequestDto";
 import { Request, Response } from "express";
 import { message, status, tokenType } from "../constants";
-import { AuthService, UserService } from "../services";
+import { authService, userService } from "../services";
 import jwtHandler from "../utils/jwtHandler";
 import { fail, success } from "../utils/response";
 import { slack, slackMessage } from "../config/slackConfig";
@@ -19,7 +19,7 @@ const signIn = async (req: Request, res: Response) => {
       social: social,
     };
 
-    const data = await AuthService.signIn(authRequestDto);
+    const data = await authService.signIn(authRequestDto);
 
     return res
       .status(status.OK)
@@ -71,7 +71,7 @@ const getToken = async (req: Request, res: Response) => {
         .send(fail(status.UNAUTHORIZED, message.EXPIRED_ALL_TOKEN));
     }
 
-    const user = await UserService.findUserByRefreshToken(
+    const user = await userService.findUserByRefreshToken(
       refreshToken as string,
     );
     if (!user) {
