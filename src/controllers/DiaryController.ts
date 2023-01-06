@@ -1,3 +1,4 @@
+import { DiaryDeleteRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { slack, slackMessage } from "../config/slackConfig";
@@ -49,8 +50,44 @@ const createDiary = async (req: Request, res: Response) => {
   }
 };
 
+const deleteDiary = async (req: Request, res: Response) => {
+  const { diaryId } = req.params;
+  const { userId } = req.body;
+
+  const diaryDeleteRequestDto: DiaryDeleteRequestDto = {
+    userId: userId,
+    diaryId: diaryId,
+  };
+
+  try {
+    const data = diaryService.deleteDiary(diaryDeleteRequestDto);
+
+    if (!data) {
+      return res
+        .status(status.BAD_REQUEST)
+        .send(fail(status.BAD_REQUEST, message.BAD_DIARY_ID));
+    }
+
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.DELETE_DIARY_SUCCESS));
+  } catch (error) {
+    const log = slackMessage(
+      req.method.toUpperCase(),
+      req.originalUrl,
+      error,
+      userId,
+    );
+    slack(log);
+  }
+  return res
+    .status(status.INTERNAL_SERVER_ERROR)
+    .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+};
+
 const diaryController = {
   createDiary,
+  deleteDiary,
 };
 
 export default diaryController;
