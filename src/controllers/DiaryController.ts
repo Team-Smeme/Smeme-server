@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { message, status } from "../constants";
 import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
-import diaryService from "../services/DiaryService";
+import { DiaryService } from "../services";
 import { fail, success } from "../utils/response";
 
 const createDiary = async (req: Request, res: Response) => {
@@ -16,7 +16,7 @@ const createDiary = async (req: Request, res: Response) => {
   const diaryRequestDto: DiaryRequestDto = req.body;
 
   try {
-    const data = await diaryService.createDiary(diaryRequestDto);
+    const data = await DiaryService.createDiary(diaryRequestDto);
 
     if (data === status.UNAUTHORIZED) {
       return res
