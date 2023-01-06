@@ -58,6 +58,6 @@ jobs:
       - name: deploy with AWS codeDeploy
         run: aws deploy create-deployment
           --application-name smeme-codedeploy
-          --deployment-config-name CodeDeployDefault.AllAtATime
+          --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name smeme-group
           --s3-location bucket=smeme-bucket,bundleType=zip,key=deploy/smeme.zip
