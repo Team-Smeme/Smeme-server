@@ -1,3 +1,2 @@
-// example
-
-// export { default as userService } from "./userService";
+export { default as UserService } from "./UserService";
+export { default as AuthService } from "./AuthService";
