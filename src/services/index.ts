@@ -1,3 +1,1 @@
-// example
-
-// export { default as userService } from "./userService";
+export { default as DiaryService } from "./DiaryService";
