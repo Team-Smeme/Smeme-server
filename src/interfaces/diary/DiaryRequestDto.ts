@@ -11,3 +11,8 @@ export interface DiaryDeleteRequestDto {
   userId: string;
   diaryId: string;
 }
+
+export interface DiaryGetRequestDto {
+  userId: string;
+  diaryId: string;
+}
