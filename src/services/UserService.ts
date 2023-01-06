@@ -87,10 +87,31 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
   return result;
 };
 
+const getUserInfo = async (userId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return status.UNAUTHORIZED;
+  }
+
+  const result = {
+    username: user.username,
+    targetLang: user.target_lang,
+    bio: user.bio,
+  };
+
+  return result;
+};
+
 const UserService = {
   updateUserInfo,
   findUserByRefreshToken,
   getDiaryByUserId,
+  getUserInfo,
 };
 
 export default UserService;

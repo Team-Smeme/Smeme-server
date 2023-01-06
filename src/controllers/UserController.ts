@@ -66,8 +66,32 @@ const getUserDiaryDetail = async (req: Request, res: Response) => {
   }
 };
 
+const getUserInfo = async (req: Request, res: Response) => {
+  const userId = req.body.userId as string;
+
+  try {
+    const data = await userService.getUserInfo(+userId);
+
+    if (!data) {
+      res
+        .status(status.UNAUTHORIZED)
+        .send(fail(status.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.MY_PAGE_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(req.method, req.originalUrl, error, +userId);
+    slack(log);
+    return res
+      .status(status.INTERNAL_SERVER_ERROR)
+      .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
+
 const userController = {
   updateUserInfo,
   getUserDiaryDetail,
+  getUserInfo,
 };
 export default userController;
