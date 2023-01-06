@@ -10,7 +10,7 @@ app.use(express.json());
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("서버 연결");
+  res.send("서버 연결 (CD TEST)");
 });
 
 app.listen(PORT, () => {
