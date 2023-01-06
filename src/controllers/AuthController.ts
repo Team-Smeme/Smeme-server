@@ -8,7 +8,7 @@ import { fail, success } from "../utils/response";
 const signIn = async (req: Request, res: Response) => {
   try {
     const socialToken = req.headers.authorization
-      .split(" ")
+      ?.split(" ")
       .reverse()[0] as string;
 
     const { social } = req.body;
