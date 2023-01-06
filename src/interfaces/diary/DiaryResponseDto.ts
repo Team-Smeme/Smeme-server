@@ -17,6 +17,6 @@ export interface OpenDiaryResponseDto {
   userId: number;
   username: string;
   isSeen: boolean;
-  hasLike: number;
+  hasLike: boolean;
   createdAt: string;
 }

@@ -147,11 +147,15 @@ const getOpenDiaries = async (userId: number) => {
         ? true
         : false;
 
-    const hasLike = await prisma.likes.count({
-      where: {
-        diary_id: diary.id,
-      },
-    });
+    const hasLike =
+      (await prisma.likes.count({
+        where: {
+          diary_id: diary.id,
+          user_id: userId,
+        },
+      })) > 0
+        ? true
+        : false;
 
     const writer = await prisma.users.findUnique({
       where: {
