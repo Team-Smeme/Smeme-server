@@ -1,1 +1,1 @@
-export { default as diaryController } from "./DiaryController";
+export { default as DiaryController } from "./DiaryController";
