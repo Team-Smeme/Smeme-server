@@ -17,10 +17,5 @@ router.post(
   DiaryController.createDiary,
 );
 
-// 게시판 조회
-
-// 게시판 일기 상세 조회
-
-// 게시판 일기 추천
-
+router.delete("/:diaryId", DiaryController.deleteDiary);
 export default router;

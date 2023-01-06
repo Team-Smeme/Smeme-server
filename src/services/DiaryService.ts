@@ -1,3 +1,4 @@
+import { DiaryDeleteRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { PrismaClient } from "@prisma/client";
 import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
 import dayjs from "dayjs";
@@ -44,8 +45,31 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
   };
 };
 
+const deleteDiary = async (diaryDeleteRequestDto: DiaryDeleteRequestDto) => {
+  const { userId, diaryId } = diaryDeleteRequestDto;
+
+  const user = await prisma.users.findUnique({
+    where: {
+      id: +userId,
+    },
+  });
+
+  if (!user) {
+    return status.UNAUTHORIZED;
+  }
+
+  const data = await prisma.diaries.delete({
+    where: {
+      id: +diaryId,
+    },
+  });
+
+  return data;
+};
+
 const diaryService = {
   createDiary,
+  deleteDiary,
 };
 
 export default diaryService;

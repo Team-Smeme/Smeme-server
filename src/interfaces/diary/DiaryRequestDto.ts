@@ -6,3 +6,8 @@ export interface DiaryRequestDto {
   topic: string;
   isPublic: boolean;
 }
+
+export interface DiaryDeleteRequestDto {
+  userId: string;
+  diaryId: string;
+}
