@@ -106,9 +106,9 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
       id: data.topic_id,
     },
     select: {
-      category_id: true
-    }
-  })
+      category_id: true,
+    },
+  });
 
   const categoryId = topic?.category_id as number;
 
