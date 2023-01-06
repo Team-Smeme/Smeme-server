@@ -1,5 +1,3 @@
-# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: deploy
 
@@ -16,7 +14,6 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - name: Checkout source code.
@@ -42,11 +39,11 @@ jobs:
       - name: build server files
         working-directory: ./
         run: |
-          yarn 
+          yarn
           yarn run build
       
       - name: zip file
-        run: zip -r smeme.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: zip -r smeme.zip ./dist ./scripts ./appspec.yml ./.env ./package.json ./prisma
       
       - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -61,6 +58,6 @@ jobs:
       - name: deploy with AWS codeDeploy
         run: aws deploy create-deployment
           --application-name smeme-codedeploy
-          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name smeme-group
           --s3-location bucket=smeme-bucket,bundleType=zip,key=deploy/smeme.zip

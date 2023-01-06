@@ -31,7 +31,7 @@ const signIn = async (authRequestDto: AuthRequestDto) => {
 
   const refreshToken = jwtHandler.signRefreshToken();
 
-  const updatedUser = await prisma.users.update({
+  await prisma.users.update({
     data: {
       refresh_token: refreshToken,
     },

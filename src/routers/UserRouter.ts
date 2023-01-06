@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { userController } from "../controllers";
+import { UserController } from "../controllers";
 
 const router: Router = Router();
 
-router.patch("/", userController.updateUserInfo);
+router.patch("/", UserController.updateUserInfo);
 router.get("/diaries/:diaryId", userController.getUserDiaryDetail);
 router.get("/", userController.getUserInfo);
 
