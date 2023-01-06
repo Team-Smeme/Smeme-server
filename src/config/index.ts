@@ -22,4 +22,9 @@ export default {
    */
   jwtSecret: process.env.JWT_SECRET as string,
   jwtAlgo: process.env.JWT_ALGORITHM as string,
+
+  /**
+   * Slack
+   */
+  slackUrl: process.env.SLACK_URL as string,
 };
