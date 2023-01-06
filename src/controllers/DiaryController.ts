@@ -60,7 +60,7 @@ const deleteDiary = async (req: Request, res: Response) => {
   };
 
   try {
-    const data = DiaryService.deleteDiary(diaryDeleteRequestDto);
+    const data = await DiaryService.deleteDiary(diaryDeleteRequestDto);
 
     if (!data) {
       return res

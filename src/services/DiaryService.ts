@@ -63,11 +63,6 @@ const deleteDiary = async (diaryDeleteRequestDto: DiaryDeleteRequestDto) => {
       id: +diaryId,
     },
   });
-  console.log(data);
-
-  if (!data) {
-    return null;
-  }
 
   return data;
 };
