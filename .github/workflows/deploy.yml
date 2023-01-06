@@ -42,6 +42,7 @@ jobs:
       - name: build server files
         working-directory: ./
         run: |
+          npx prisma generate
           yarn 
           yarn run build
       
