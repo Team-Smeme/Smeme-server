@@ -26,8 +26,11 @@ const updateUserInfo = async (req: Request, res: Response) => {
       .status(status.OK)
       .send(success(status.OK, message.SIGNUP_SUCCESS));
   } catch (error) {
-    const message = slackMessage(req.method, req.originalUrl, error, userId);
-    slack(message);
+    const log = slackMessage(req.method, req.originalUrl, error, userId);
+    slack(log);
+    res
+      .status(status.INTERNAL_SERVER_ERROR)
+      .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
 

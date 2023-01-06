@@ -25,8 +25,8 @@ const signIn = async (req: Request, res: Response) => {
       .status(status.OK)
       .send(success(status.OK, message.SIGNIN_SUCCESS, data));
   } catch (error) {
-    const message = slackMessage(req.method, req.originalUrl, error);
-    slack(message);
+    const log = slackMessage(req.method, req.originalUrl, error);
+    slack(log);
     if (error == status.UNAUTHORIZED) {
       return res
         .status(status.UNAUTHORIZED)
@@ -90,8 +90,8 @@ const getToken = async (req: Request, res: Response) => {
       .status(status.OK)
       .send(success(status.OK, message.CREATE_TOKEN_SUCCESS, data));
   } catch (error) {
-    const message = slackMessage(req.method, req.originalUrl, error);
-    slack(message);
+    const log = slackMessage(req.method, req.originalUrl, error);
+    slack(log);
     return res
       .status(status.INTERNAL_SERVER_ERROR)
       .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
