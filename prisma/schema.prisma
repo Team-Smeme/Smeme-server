@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,78 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model categories {
+  id      Int      @id(map: "categories_pk") @unique(map: "categories_id_uindex") @default(autoincrement())
+  content String   @unique(map: "categories_content_uindex") @db.VarChar(20)
+  topics  topics[]
+}
+
+model diaries {
+  id          Int         @id(map: "diaries_pk") @unique(map: "diaries_id_uindex") @default(autoincrement())
+  user_id     Int
+  topic_id    Int
+  content     String
+  target_lang String      @db.VarChar(10)
+  is_public   Boolean
+  created_at  DateTime    @db.Timestamp(6)
+  updated_at  DateTime?   @db.Timestamp(6)
+  topics      topics      @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_topics_id_fk")
+  users       users       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_users_id_fk")
+  histories   histories[]
+  likes       likes[]
+  scraps      scraps[]
+}
+
+model histories {
+  id       Int     @id(map: "histories_pk") @unique(map: "histories_id_uindex") @default(autoincrement())
+  user_id  Int
+  diary_id Int
+  diaries  diaries @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "histories_diaries_id_fk")
+  users    users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "histories_users_id_fk")
+
+  @@unique([user_id, diary_id], map: "histories_user_id_diary_id_uindex")
+}
+
+model likes {
+  id       Int     @id(map: "likes_pk") @unique(map: "likes_id_uindex") @default(autoincrement())
+  user_id  Int
+  diary_id Int
+  diaries  diaries @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "likes_diaries_id_fk")
+  users    users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "likes_users_id_fk")
+
+  @@unique([user_id, diary_id], map: "likes_user_id_diary_id_uindex")
+}
+
+model scraps {
+  id        Int     @id(map: "scraps_pk") @unique(map: "scraps_id_uindex") @default(autoincrement())
+  user_id   Int
+  diary_id  Int
+  paragraph String
+  diaries   diaries @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_diaries_id_fk")
+  users     users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_users_id_fk")
+}
+
+model topics {
+  id          Int        @id(map: "topics_pk") @unique(map: "topics_id_uindex") @default(autoincrement())
+  category_id Int
+  content     String     @unique(map: "topics_content_uindex") @db.VarChar(200)
+  diaries     diaries[]
+  categories  categories @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "topics_categories_id_fk")
+}
+
+model users {
+  id            Int         @id(map: "users_pk") @unique(map: "users_id_uindex") @default(autoincrement())
+  social        String      @db.VarChar(20)
+  social_id     String      @db.VarChar(200)
+  refresh_token String?     @db.VarChar(200)
+  username      String?     @unique(map: "users_username_uindex") @db.VarChar(50)
+  bio           String?     @db.VarChar(200)
+  target_lang   String      @db.VarChar(10)
+  created_at    DateTime    @default(now()) @db.Timestamp(6)
+  diaries       diaries[]
+  histories     histories[]
+  likes         likes[]
+  scraps        scraps[]
 }
