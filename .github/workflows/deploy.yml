@@ -42,11 +42,11 @@ jobs:
       - name: build server files
         working-directory: ./
         run: |
-          yarn 
+          yarn
           yarn run build
       
       - name: zip file
-        run: zip -r smeme.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: zip -r smeme.zip ./dist ./scripts ./appspec.yml ./.env ./package.json ./prisma
       
       - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1
