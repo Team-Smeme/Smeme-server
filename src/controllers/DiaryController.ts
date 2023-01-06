@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import { slack, slackMessage } from "../config/slackConfig";
 import { message, status } from "../constants";
 import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
 import { DiaryService } from "../services";
@@ -35,6 +36,13 @@ const createDiary = async (req: Request, res: Response) => {
       .send(success(status.CREATED, message.CREATE_DIARY_SUCCESS, data));
   } catch (error) {
     console.log("Cannot create diary", error);
+    const log = slackMessage(
+      req.method,
+      req.originalUrl,
+      error,
+      Number(diaryRequestDto.userId),
+    );
+    slack(log);
     return res
       .status(status.INTERNAL_SERVER_ERROR)
       .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));

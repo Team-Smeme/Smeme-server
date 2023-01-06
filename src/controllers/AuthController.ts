@@ -4,6 +4,7 @@ import { message, status, tokenType } from "../constants";
 import { AuthService, UserService } from "../services";
 import jwtHandler from "../utils/jwtHandler";
 import { fail, success } from "../utils/response";
+import { slack, slackMessage } from "../config/slackConfig";
 
 const signIn = async (req: Request, res: Response) => {
   try {
@@ -24,7 +25,8 @@ const signIn = async (req: Request, res: Response) => {
       .status(status.OK)
       .send(success(status.OK, message.SIGNIN_SUCCESS, data));
   } catch (error) {
-    console.log(error);
+    const log = slackMessage(req.method, req.originalUrl, error);
+    slack(log);
     if (error == status.UNAUTHORIZED) {
       return res
         .status(status.UNAUTHORIZED)
@@ -88,6 +90,8 @@ const getToken = async (req: Request, res: Response) => {
       .status(status.OK)
       .send(success(status.OK, message.CREATE_TOKEN_SUCCESS, data));
   } catch (error) {
+    const log = slackMessage(req.method, req.originalUrl, error);
+    slack(log);
     return res
       .status(status.INTERNAL_SERVER_ERROR)
       .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
