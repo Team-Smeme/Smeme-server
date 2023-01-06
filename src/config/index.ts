@@ -1,4 +1,5 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
@@ -19,6 +20,6 @@ export default {
   /**
    * JWT
    */
-  // jwtSecret: process.env.JWT_SECRET as string,
-  // jwtAlgo: process.env.JWT_ALGORITHM as string,
+  jwtSecret: process.env.JWT_SECRET as string,
+  jwtAlgo: process.env.JWT_ALGORITHM as string,
 };
