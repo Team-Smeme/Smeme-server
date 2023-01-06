@@ -2,7 +2,7 @@ import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { UserRequestDto } from "./../interfaces/user/UserRequestDto";
 import { Request, Response } from "express";
 import { message, status } from "../constants";
-import { diaryService, userService } from "../services";
+import { userService } from "../services";
 import { fail, success } from "../utils/response";
 import { slack, slackMessage } from "../config/slackConfig";
 
@@ -89,9 +89,35 @@ const getUserInfo = async (req: Request, res: Response) => {
   }
 };
 
+const getUserDiaryList = async (req: Request, res: Response) => {
+  const { userId } = req.body;
+
+  try {
+    const data = await userService.getUserDiaryList(+userId);
+
+    if (!data) {
+      return res
+        .status(status.UNAUTHORIZED)
+        .send(fail(status.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.GET_DIARY_LIST_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(req.method, req.originalUrl, error, userId);
+    slack(log);
+
+    return res
+      .status(status.INTERNAL_SERVER_ERROR)
+      .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
+
 const userController = {
   updateUserInfo,
   getUserDiaryDetail,
   getUserInfo,
+  getUserDiaryList,
 };
 export default userController;
