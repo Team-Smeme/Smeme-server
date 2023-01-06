@@ -4,6 +4,7 @@ import diaryController from "../controllers/DiaryController";
 
 const router: Router = Router();
 
+router.put("/:diaryId", diaryController.updateDiary);
 router.post(
   "/",
   [
