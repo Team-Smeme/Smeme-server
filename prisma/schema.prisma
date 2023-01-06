@@ -70,15 +70,9 @@ model users {
   id            Int         @id(map: "users_pk") @unique(map: "users_id_uindex") @default(autoincrement())
   social        String      @db.VarChar(20)
   social_id     String      @db.VarChar(200)
-<<<<<<< HEAD
-  refresh_token String?     @db.VarChar(200)
-  username      String?     @unique(map: "users_username_uindex") @db.VarChar(50)
-  bio           String?     @db.VarChar(200)
-=======
   refresh_token String      @unique(map: "users_refresh_token_uindex") @db.VarChar(200)
   username      String      @unique(map: "users_username_uindex") @db.VarChar(50)
   bio           String      @db.VarChar(200)
->>>>>>> develop
   target_lang   String      @db.VarChar(10)
   created_at    DateTime    @default(now()) @db.Timestamp(6)
   diaries       diaries[]
