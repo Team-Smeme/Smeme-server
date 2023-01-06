@@ -3,7 +3,10 @@ import { PrismaClient } from "@prisma/client";
 import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
 import dayjs from "dayjs";
 import { status } from "../constants";
-import { DiaryResponseDto } from "../interfaces/diary/DiaryResponseDto";
+import {
+  DiaryResponseDto,
+  OpenDiaryResponseDto,
+} from "../interfaces/diary/DiaryResponseDto";
 import statusCode from "../constants/statusCode";
 
 const prisma = new PrismaClient();
@@ -111,6 +114,78 @@ const getDiaryById = async (diaryId: number, userId: number) => {
   return data;
 };
 
+const getOpenDiaries = async (userId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return statusCode.UNAUTHORIZED;
+  }
+
+  let diaries = await prisma.diaries.findMany();
+  diaries = diaries.filter((diary) => diary.user_id != userId);
+
+  const result: OpenDiaryResponseDto[] = [];
+
+  const promises = diaries.map(async (diary) => {
+    const likeCnt = await prisma.likes.count({
+      where: {
+        diary_id: diary.id,
+      },
+    });
+
+    const isSeen =
+      (await prisma.histories.count({
+        where: {
+          user_id: userId,
+          diary_id: diary.id,
+        },
+      })) > 0
+        ? true
+        : false;
+
+    const hasLike = await prisma.likes.count({
+      where: {
+        diary_id: diary.id,
+      },
+    });
+
+    const writer = await prisma.users.findUnique({
+      where: {
+        id: diary.user_id,
+      },
+    });
+
+    if (!writer) {
+      return statusCode.INTERNAL_SERVER_ERROR;
+    }
+
+    const data: OpenDiaryResponseDto = {
+      diaryId: diary.id,
+      content: diary.content,
+      likeCnt: likeCnt,
+      userId: writer.id,
+      username: writer.username as string,
+      isSeen: isSeen,
+      hasLike: hasLike,
+      createdAt: dayjs(diary.created_at).format("YYYY-MM-DD HH:mm"),
+    };
+
+    result.push(data);
+  });
+
+  await Promise.all(promises);
+
+  result.sort(function (a, b) {
+    return a.createdAt > b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0;
+  });
+
+  return result;
+};
+
 const deleteDiary = async (diaryDeleteRequestDto: DiaryDeleteRequestDto) => {
   const { userId, diaryId } = diaryDeleteRequestDto;
 
@@ -136,6 +211,7 @@ const deleteDiary = async (diaryDeleteRequestDto: DiaryDeleteRequestDto) => {
 const diaryService = {
   createDiary,
   getDiaryById,
+  getOpenDiaries,
   deleteDiary,
 };
 

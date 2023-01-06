@@ -9,3 +9,14 @@ export interface DiaryResponseDto {
   username: string;
   bio: string;
 }
+
+export interface OpenDiaryResponseDto {
+  diaryId: number;
+  content: string;
+  likeCnt: number;
+  userId: number;
+  username: string;
+  isSeen: boolean;
+  hasLike: number;
+  createdAt: string;
+}
