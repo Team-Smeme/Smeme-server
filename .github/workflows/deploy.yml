@@ -42,8 +42,8 @@ jobs:
       - name: build server files
         working-directory: ./
         run: |
+          yarn
           npx prisma generate
-          yarn 
           yarn run build
       
       - name: zip file
