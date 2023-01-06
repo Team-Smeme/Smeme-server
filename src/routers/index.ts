@@ -1,8 +1,8 @@
 import { Router } from "express";
-import diaryRouter from "./DiaryRouter";
+import DiaryRouter from "./DiaryRouter";
 
 const router: Router = Router();
 
-router.use("/diaries", diaryRouter);
+router.use("/diaries", DiaryRouter);
 
 export default router;
