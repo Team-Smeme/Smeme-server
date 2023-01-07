@@ -1,15 +1,16 @@
+import { PrismaClient } from "@prisma/client";
+import dayjs from "dayjs";
+import { status } from "../constants";
 import {
+  DiaryRequestDto,
   DiaryDeleteRequestDto,
   DiaryUpdateRequestDto,
 } from "./../interfaces/diary/DiaryRequestDto";
-import { PrismaClient } from "@prisma/client";
-import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
-import dayjs from "dayjs";
-import { status } from "../constants";
 import {
   DiaryResponseDto,
   OpenDiaryResponseDto,
 } from "../interfaces/diary/DiaryResponseDto";
+import { DiaryLikeDto } from "../interfaces/diary/DiaryLikeDto";
 
 const prisma = new PrismaClient();
 
@@ -291,12 +292,69 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
   return result;
 };
 
+const getLikeDiary = async (userId: number, diaryId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return status.UNAUTHORIZED;
+  }
+
+  const diary = await prisma.diaries.findUnique({
+    where: {
+      id: diaryId,
+    },
+  });
+
+  if (!diary) {
+    return status.BAD_REQUEST;
+  }
+
+  let hasLike =
+    (await prisma.likes.count({
+      where: {
+        user_id: userId,
+        diary_id: diaryId,
+      },
+    })) > 0
+      ? true
+      : false;
+
+  if (hasLike) {
+    await prisma.likes.deleteMany({
+      where: {
+        user_id: userId,
+        diary_id: diaryId,
+      },
+    });
+    hasLike = false;
+  } else {
+    await prisma.likes.create({
+      data: {
+        user_id: userId,
+        diary_id: diaryId,
+      },
+    });
+    hasLike = true;
+  }
+
+  const data: DiaryLikeDto = {
+    hasLike: hasLike,
+  };
+
+  return data;
+};
+
 const diaryService = {
   createDiary,
   deleteDiary,
   getDiaryById,
   getOpenDiaries,
   updateDiary,
+  getLikeDiary,
 };
 
 export default diaryService;
