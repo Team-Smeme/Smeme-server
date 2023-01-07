@@ -6,7 +6,10 @@ import { PrismaClient } from "@prisma/client";
 import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
 import dayjs from "dayjs";
 import { status } from "../constants";
-import { OpenDiaryResponseDto } from "../interfaces/diary/DiaryResponseDto";
+import {
+  DiaryResponseDto,
+  OpenDiaryResponseDto,
+} from "../interfaces/diary/DiaryResponseDto";
 
 const prisma = new PrismaClient();
 
