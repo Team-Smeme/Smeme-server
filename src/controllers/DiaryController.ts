@@ -77,7 +77,7 @@ const getDiaryById = async (req: Request, res: Response) => {
 
     return res
       .status(status.OK)
-      .send(success(status.OK, message.GET_DIADY_SUCCESS, data));
+      .send(success(status.OK, message.GET_DIARY_SUCCESS, data));
   } catch (error) {
     const log = slackMessage(
       req.method.toUpperCase(),
