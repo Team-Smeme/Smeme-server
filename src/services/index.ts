@@ -1,3 +1,3 @@
-export { default as userService } from "./UserService";
-export { default as authService } from "./AuthService";
-export { default as diaryService } from "./DiaryService";
+export { default as UserService } from "./UserService";
+export { default as AuthService } from "./AuthService";
+export { default as DiaryService } from "./DiaryService";

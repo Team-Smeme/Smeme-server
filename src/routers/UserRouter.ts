@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { userController } from "../controllers";
+import { UserController } from "../controllers";
 
 const router: Router = Router();
 
-router.patch("/", userController.updateUserInfo);
-router.get("/diaries/:diaryId", userController.getUserDiaryDetail);
-router.get("/diaries", userController.getUserDiaryList);
-router.get("/", userController.getUserInfo);
+router.patch("/", UserController.updateUserInfo);
+router.get("/diaries/:diaryId", UserController.getUserDiaryDetail);
+router.get("/diaries", UserController.getUserDiaryList);
+router.get("/", UserController.getUserInfo);
 
 export default router;
