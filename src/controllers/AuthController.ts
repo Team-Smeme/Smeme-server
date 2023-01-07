@@ -5,15 +5,22 @@ import { AuthService, UserService } from "../services";
 import jwtHandler from "../utils/jwtHandler";
 import { fail, success } from "../utils/response";
 import { slack, slackMessage } from "../config/slackConfig";
+import { validationResult } from "express-validator";
 
 const signIn = async (req: Request, res: Response) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res
+      .status(status.BAD_REQUEST)
+      .send(fail(status.BAD_REQUEST, message.NULL_VALUE));
+  }
+  const socialToken = req.headers.authorization
+    ?.split(" ")
+    .reverse()[0] as string;
+
+  const { social } = req.body;
+
   try {
-    const socialToken = req.headers.authorization
-      ?.split(" ")
-      .reverse()[0] as string;
-
-    const { social } = req.body;
-
     const authRequestDto: AuthRequestDto = {
       socialToken: socialToken,
       social: social,

@@ -159,6 +159,13 @@ const deleteDiary = async (req: Request, res: Response) => {
 };
 
 const updateDiary = async (req: Request, res: Response) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res
+      .status(status.BAD_REQUEST)
+      .send(fail(status.BAD_REQUEST, message.NULL_VALUE));
+  }
+
   const { diaryId } = req.params;
   const { userId, content, isPublic, category, targetLang } = req.body;
 
