@@ -86,6 +86,40 @@ const getDiaryById = async (req: Request, res: Response) => {
   }
 };
 
+const getOpenDiaries = async (req: Request, res: Response) => {
+  const { userId } = req.body;
+
+  try {
+    const data = await DiaryService.getOpenDiaries(+userId);
+
+    if (data === statusCode.UNAUTHORIZED) {
+      return res
+        .status(status.UNAUTHORIZED)
+        .send(fail(status.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+
+    if (data === statusCode.INTERNAL_SERVER_ERROR) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .send(
+          fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+        );
+    }
+
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.GET_DIARY_LIST_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(
+      req.method.toUpperCase(),
+      req.originalUrl,
+      error,
+      userId,
+    );
+    slack(log);
+  }
+};
+
 const deleteDiary = async (req: Request, res: Response) => {
   const { diaryId } = req.params;
   const { userId } = req.body;
@@ -124,6 +158,7 @@ const deleteDiary = async (req: Request, res: Response) => {
 const diaryController = {
   createDiary,
   getDiaryById,
+  getOpenDiaries,
   deleteDiary,
 };
 
