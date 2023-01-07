@@ -97,6 +97,26 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     },
   });
 
+  const hasLike =
+    (await prisma.likes.count({
+      where: {
+        diary_id: diaryId,
+        user_id: userId,
+      },
+    })) > 0
+      ? true
+      : false;
+
+  const writer = await prisma.users.findUnique({
+    where: {
+      id: diary.user_id,
+    },
+  });
+
+  if (!writer) {
+    return statusCode.INTERNAL_SERVER_ERROR;
+  }
+
   const date = dayjs(diary.created_at).format("YYYY-MM-DD HH:mm");
 
   const data: DiaryResponseDto = {
@@ -106,9 +126,10 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     topic: topic.content,
     likeCnt: likeCnt,
     createdAt: date,
-    userId: userId,
-    username: user.username as string,
-    bio: user.bio as string,
+    userId: writer.id,
+    username: writer.username as string,
+    bio: writer.bio as string,
+    hasLike: hasLike,
   };
 
   return data;

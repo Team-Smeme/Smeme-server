@@ -8,6 +8,7 @@ export interface DiaryResponseDto {
   userId: number;
   username: string;
   bio: string;
+  hasLike: boolean;
 }
 
 export interface OpenDiaryResponseDto {
