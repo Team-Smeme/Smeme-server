@@ -40,7 +40,6 @@ const createScrap = async (req: Request, res: Response) => {
       .status(statusCode.CREATED)
       .send(success(statusCode.CREATED, message.SCRAP_SUCCESS, data));
   } catch (error) {
-    console.log("Cannot create scrap", error);
     const log = slackMessage(
       req.method,
       req.originalUrl,
