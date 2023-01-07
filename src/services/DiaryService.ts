@@ -1,16 +1,15 @@
+import { PrismaClient } from "@prisma/client";
+import dayjs from "dayjs";
+import { status } from "../constants";
 import {
+  DiaryRequestDto,
   DiaryDeleteRequestDto,
   DiaryUpdateRequestDto,
 } from "./../interfaces/diary/DiaryRequestDto";
-import { PrismaClient } from "@prisma/client";
-import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
-import dayjs from "dayjs";
-import { status } from "../constants";
 import {
   DiaryResponseDto,
   OpenDiaryResponseDto,
 } from "../interfaces/diary/DiaryResponseDto";
-import statusCode from "../constants/statusCode";
 import { DiaryLikeDto } from "../interfaces/diary/DiaryLikeDto";
 
 const prisma = new PrismaClient();
@@ -311,7 +310,7 @@ const getLikeDiary = async (userId: number, diaryId: number) => {
   });
 
   if (!diary) {
-    return statusCode.BAD_REQUEST;
+    return status.BAD_REQUEST;
   }
 
   let hasLike =
