@@ -8,7 +8,6 @@ router.put("/:diaryId", DiaryController.updateDiary);
 router.post(
   "/",
   [
-    body("userId").notEmpty(),
     body("content").notEmpty().isLength({ min: 10 }),
     body("targetLang").notEmpty(),
     body("category").notEmpty(),
@@ -23,5 +22,7 @@ router.get("/:diaryId", DiaryController.getDiaryById);
 router.get("/", DiaryController.getOpenDiaries);
 
 router.delete("/:diaryId", DiaryController.deleteDiary);
+
+router.post("/like", body("diaryId").notEmpty(), DiaryController.getLikeDiary);
 
 export default router;
