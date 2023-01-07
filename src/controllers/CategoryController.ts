@@ -21,8 +21,26 @@ const getTopics = async (req: Request, res: Response) => {
   }
 };
 
+const getCategories = async (req: Request, res: Response) => {
+  try {
+    const data = await CategoryService.getCategories();
+
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.GET_CATEGORY_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(req.method, req.originalUrl, error);
+    slack(log);
+
+    return res
+      .status(status.INTERNAL_SERVER_ERROR)
+      .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
+
 const categoryController = {
   getTopics,
+  getCategories,
 };
 
 export default categoryController;

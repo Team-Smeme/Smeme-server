@@ -34,8 +34,23 @@ const getTopics = async () => {
   return result[random];
 };
 
+const getCategories = async () => {
+  const categories = await prisma.categories.findMany();
+
+  const result: string[] = [];
+
+  categories.map((category) => {
+    result.push(category.content);
+  });
+
+  return {
+    categories: result,
+  };
+};
+
 const categoryService = {
   getTopics,
+  getCategories,
 };
 
 export default categoryService;
