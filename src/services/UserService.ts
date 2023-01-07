@@ -49,7 +49,11 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
   });
 
   if (data?.user_id !== +userId) {
-    return status.BAD_REQUEST;
+    return status.UNAUTHORIZED;
+  }
+
+  if (!data) {
+    return null;
   }
 
   const categoryData = await prisma.topics.findFirst({
@@ -61,11 +65,11 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
     },
   });
 
-  const categoryId = categoryData?.category_id as number;
-
-  if (!categoryId) {
-    return status.BAD_REQUEST;
+  if (!categoryData) {
+    return status.INTERNAL_SERVER_ERROR;
   }
+
+  const categoryId = categoryData?.category_id as number;
 
   const category = await prisma.categories.findUnique({
     where: {
@@ -107,11 +111,97 @@ const getUserInfo = async (userId: number) => {
   return result;
 };
 
+const getUserDiaryList = async (userId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return status.UNAUTHORIZED;
+  }
+
+  const diaryList = await prisma.diaries.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+
+  const resultList = [];
+
+  for (let i = 0; i < diaryList.length; i++) {
+    const topic = await prisma.topics.findFirst({
+      where: {
+        id: diaryList[i].topic_id,
+      },
+      select: {
+        category_id: true,
+      },
+    });
+
+    if (!topic) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
+    const categoryId = topic?.category_id as number;
+
+    if (!categoryId) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
+
+    const category = await prisma.categories.findFirst({
+      where: {
+        id: categoryId,
+      },
+      select: {
+        content: true,
+      },
+    });
+
+    if (!category) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
+
+    const categoryContent = category?.content as string;
+
+    const diary = await prisma.diaries.findUnique({
+      where: {
+        id: diaryList[i].id,
+      },
+      include: {
+        _count: {
+          select: { likes: true },
+        },
+      },
+    });
+
+    if (!diary) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
+
+    const likeCnt = diary?._count.likes;
+
+    const result = {
+      diaryId: diaryList[i].id,
+      content: diaryList[i].content,
+      category: categoryContent,
+      createdAt: diaryList[i].created_at,
+      isPublic: diaryList[i].is_public,
+      likeCnt: likeCnt,
+    };
+
+    resultList.push(result);
+  }
+
+  return resultList;
+};
+
 const UserService = {
   updateUserInfo,
   findUserByRefreshToken,
   getDiaryByUserId,
   getUserInfo,
+  getUserDiaryList,
 };
 
 export default UserService;
