@@ -2,7 +2,7 @@ import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { UserRequestDto } from "./../interfaces/user/UserRequestDto";
 import { Request, Response } from "express";
 import { message, status } from "../constants";
-import { userService } from "../services";
+import { UserService } from "../services";
 import { fail, success } from "../utils/response";
 import { slack, slackMessage } from "../config/slackConfig";
 
@@ -16,7 +16,7 @@ const updateUserInfo = async (req: Request, res: Response) => {
       bio: bio,
     };
 
-    const data = await userService.updateUserInfo(userRequestDto);
+    const data = await UserService.updateUserInfo(userRequestDto);
 
     if (!data) {
       return res

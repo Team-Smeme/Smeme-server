@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import diaryController from "../controllers/DiaryController";
+import { DiaryController } from "../controllers";
 
 const router: Router = Router();
 
@@ -15,8 +15,8 @@ router.post(
     body("topic").notEmpty(),
     body("isPublic").notEmpty(),
   ],
-  diaryController.createDiary,
+  DiaryController.createDiary,
 );
 
-router.delete("/:diaryId", diaryController.deleteDiary);
+router.delete("/:diaryId", DiaryController.deleteDiary);
 export default router;
