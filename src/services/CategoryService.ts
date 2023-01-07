@@ -29,7 +29,9 @@ const getTopics = async () => {
 
   await Promise.all(promises);
 
-  return result;
+  const random = Math.random() * (result.length - 1);
+
+  return result[random];
 };
 
 const categoryService = {
