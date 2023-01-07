@@ -102,7 +102,7 @@ const updateDiary = async (req: Request, res: Response) => {
   };
 
   try {
-    const data = await diaryService.updateDiary(diaryUpdateRequestDto);
+    const data = await DiaryService.updateDiary(diaryUpdateRequestDto);
 
     if (!data) {
       return res

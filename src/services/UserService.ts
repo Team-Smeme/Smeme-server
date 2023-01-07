@@ -65,7 +65,6 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
     },
   });
 
-
   if (!categoryData) {
     return status.INTERNAL_SERVER_ERROR;
   }
@@ -162,7 +161,7 @@ const getUserDiaryList = async (userId: number) => {
     if (!category) {
       return status.INTERNAL_SERVER_ERROR;
     }
-    
+
     const categoryContent = category?.content as string;
 
     const diary = await prisma.diaries.findUnique({
@@ -179,7 +178,7 @@ const getUserDiaryList = async (userId: number) => {
     if (!diary) {
       return status.INTERNAL_SERVER_ERROR;
     }
-    
+
     const likeCnt = diary?._count.likes;
 
     const result = {
