@@ -19,6 +19,8 @@ router.post(
 
 router.get("/:diaryId", DiaryController.getDiaryById);
 
+router.get("/", DiaryController.getOpenDiaries);
+
 router.delete("/:diaryId", DiaryController.deleteDiary);
 
 export default router;
