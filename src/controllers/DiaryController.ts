@@ -6,6 +6,7 @@ import { message, status } from "../constants";
 import { DiaryRequestDto } from "../interfaces/diary/DiaryRequestDto";
 import { DiaryService } from "../services";
 import { fail, success } from "../utils/response";
+import statusCode from "../constants/statusCode";
 
 const createDiary = async (req: Request, res: Response) => {
   const error = validationResult(req);
@@ -50,6 +51,41 @@ const createDiary = async (req: Request, res: Response) => {
   }
 };
 
+const getDiaryById = async (req: Request, res: Response) => {
+  const { diaryId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const data = await DiaryService.getDiaryById(+diaryId, +userId);
+
+    if (data === statusCode.UNAUTHORIZED) {
+      return res
+        .status(status.UNAUTHORIZED)
+        .send(fail(status.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+
+    if (data === statusCode.INTERNAL_SERVER_ERROR) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .send(
+          fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+        );
+    }
+
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.GET_CATEGORY_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(
+      req.method.toUpperCase(),
+      req.originalUrl,
+      error,
+      userId,
+    );
+    slack(log);
+  }
+};
+
 const deleteDiary = async (req: Request, res: Response) => {
   const { diaryId } = req.params;
   const { userId } = req.body;
@@ -87,6 +123,7 @@ const deleteDiary = async (req: Request, res: Response) => {
 
 const diaryController = {
   createDiary,
+  getDiaryById,
   deleteDiary,
 };
 
