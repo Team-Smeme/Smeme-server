@@ -10,4 +10,6 @@ router.post(
   ScrapController.createScrap,
 );
 
+router.get("/", ScrapController.getScrapsByUser);
+
 export default router;

@@ -36,8 +36,35 @@ const createScrap = async (scrapRequestDto: ScrapRequestDto) => {
   return scrap.id;
 };
 
+const getScrapsByUser = async (userId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return statusCode.UNAUTHORIZED;
+  }
+
+  const scraps = await prisma.scraps.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+
+  const result: string[] = [];
+
+  scraps.map((scrap) => {
+    result.push(scrap.paragraph);
+  });
+
+  return result;
+};
+
 const scrapService = {
   createScrap,
+  getScrapsByUser,
 };
 
 export default scrapService;

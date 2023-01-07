@@ -6,6 +6,7 @@ import { fail, success } from "../utils/response";
 import { slack, slackMessage } from "../config/slackConfig";
 import { ScrapService } from "../services";
 import { ScrapRequestDto } from "../interfaces/scrap/ScrapRequestDto";
+import scrapService from "../services/ScrapService";
 
 const createScrap = async (req: Request, res: Response) => {
   const error = validationResult(req);
@@ -55,8 +56,40 @@ const createScrap = async (req: Request, res: Response) => {
   }
 };
 
+const getScrapsByUser = async (req: Request, res: Response) => {
+  const { userId } = req.body;
+
+  try {
+    const data = await scrapService.getScrapsByUser(+userId);
+
+    if (data === statusCode.UNAUTHORIZED) {
+      return res
+        .status(statusCode.UNAUTHORIZED)
+        .send(fail(statusCode.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+
+    return res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, message.GET_SCRAP_LIST_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(
+      req.method,
+      req.originalUrl,
+      error,
+      Number(userId),
+    );
+    slack(log);
+    return res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+      );
+  }
+};
+
 const scrapController = {
   createScrap,
+  getScrapsByUser,
 };
 
 export default scrapController;
