@@ -52,10 +52,6 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
     return status.BAD_REQUEST;
   }
 
-  if (!data) {
-    return null;
-  }
-
   const categoryData = await prisma.topics.findFirst({
     where: {
       id: data.topic_id,
@@ -66,6 +62,10 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
   });
 
   const categoryId = categoryData?.category_id as number;
+
+  if (!categoryId) {
+    return status.BAD_REQUEST;
+  }
 
   const category = await prisma.categories.findUnique({
     where: {

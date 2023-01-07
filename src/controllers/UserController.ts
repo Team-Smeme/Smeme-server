@@ -2,7 +2,7 @@ import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { UserRequestDto } from "./../interfaces/user/UserRequestDto";
 import { Request, Response } from "express";
 import { message, status } from "../constants";
-import { DiaryService, userService } from "../services";
+import { UserService } from "../services";
 import { fail, success } from "../utils/response";
 import { slack, slackMessage } from "../config/slackConfig";
 
@@ -45,7 +45,7 @@ const getUserDiaryDetail = async (req: Request, res: Response) => {
   };
 
   try {
-    const data = await userService.getDiaryByUserId(diaryGetRequestDto);
+    const data = await UserService.getDiaryByUserId(diaryGetRequestDto);
 
     if (!data) {
       res
@@ -70,7 +70,7 @@ const getUserInfo = async (req: Request, res: Response) => {
   const userId = req.body.userId as string;
 
   try {
-    const data = await userService.getUserInfo(+userId);
+    const data = await UserService.getUserInfo(+userId);
 
     if (!data) {
       res
