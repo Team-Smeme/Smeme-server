@@ -45,7 +45,7 @@ const getUserDiaryDetail = async (req: Request, res: Response) => {
   };
 
   try {
-    const data = await userService.getDiaryByUserId(diaryGetRequestDto);
+    const data = await UserService.getDiaryByUserId(diaryGetRequestDto);
 
     if (!data) {
       res
@@ -70,7 +70,7 @@ const getUserInfo = async (req: Request, res: Response) => {
   const userId = req.body.userId as string;
 
   try {
-    const data = await userService.getUserInfo(+userId);
+    const data = await UserService.getUserInfo(+userId);
 
     if (!data) {
       res
@@ -93,7 +93,7 @@ const getUserDiaryList = async (req: Request, res: Response) => {
   const { userId } = req.body;
 
   try {
-    const data = await userService.getUserDiaryList(+userId);
+    const data = await UserService.getUserDiaryList(+userId);
 
     if (!data) {
       return res
