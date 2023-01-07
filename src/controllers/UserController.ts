@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { UserRequestDto } from "./../interfaces/user/UserRequestDto";
 import { Request, Response } from "express";
@@ -67,6 +68,12 @@ const getUserDiaryDetail = async (req: Request, res: Response) => {
 };
 
 const getUserInfo = async (req: Request, res: Response) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res
+      .status(status.BAD_REQUEST)
+      .send(fail(status.BAD_REQUEST, message.NULL_VALUE));
+  }
   const userId = req.body.userId as string;
 
   try {
