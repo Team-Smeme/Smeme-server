@@ -94,6 +94,16 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     },
   });
 
+  const hasLike =
+    (await prisma.likes.count({
+      where: {
+        diary_id: diaryId,
+        user_id: userId,
+      },
+    })) > 0
+      ? true
+      : false;
+
   const writer = await prisma.users.findUnique({
     where: {
       id: diary.user_id,
@@ -116,6 +126,7 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     userId: writer.id,
     username: writer.username as string,
     bio: writer.bio as string,
+    hasLike: hasLike,
   };
 
   return data;
