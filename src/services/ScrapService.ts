@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import statusCode from "../constants/statusCode";
 import { ScrapRequestDto } from "../interfaces/scrap/ScrapRequestDto";
+import { ScrapResponseDto } from "../interfaces/scrap/ScrapResponseDto";
 
 const prisma = new PrismaClient();
 
@@ -53,10 +54,12 @@ const getScrapsByUser = async (userId: number) => {
     },
   });
 
-  const result: string[] = [];
+  const result: ScrapResponseDto[] = [];
 
   scraps.map((scrap) => {
-    result.push(scrap.paragraph);
+    result.push({
+      paragraph: scrap.paragraph,
+    });
   });
 
   return result;

@@ -60,13 +60,17 @@ const getScrapsByUser = async (req: Request, res: Response) => {
   const { userId } = req.body;
 
   try {
-    const data = await scrapService.getScrapsByUser(+userId);
+    const scraps = await scrapService.getScrapsByUser(+userId);
 
-    if (data === statusCode.UNAUTHORIZED) {
+    if (scraps === statusCode.UNAUTHORIZED) {
       return res
         .status(statusCode.UNAUTHORIZED)
         .send(fail(statusCode.UNAUTHORIZED, message.INVALID_TOKEN));
     }
+
+    const data = {
+      scrap: scraps,
+    };
 
     return res
       .status(statusCode.OK)
