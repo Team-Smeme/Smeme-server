@@ -1,4 +1,7 @@
-import { DiaryDeleteRequestDto } from "./../interfaces/diary/DiaryRequestDto";
+import {
+  DiaryDeleteRequestDto,
+  DiaryUpdateRequestDto,
+} from "./../interfaces/diary/DiaryRequestDto";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { slack, slackMessage } from "../config/slackConfig";
@@ -155,11 +158,47 @@ const deleteDiary = async (req: Request, res: Response) => {
     .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
 };
 
+const updateDiary = async (req: Request, res: Response) => {
+  const { diaryId } = req.params;
+  const { userId, content, isPublic, category, targetLang } = req.body;
+
+  const diaryUpdateRequestDto: DiaryUpdateRequestDto = {
+    userId: userId,
+    diaryId: diaryId,
+    content: content,
+    isPublic: isPublic,
+    category: category,
+    targetLang: targetLang,
+  };
+
+  try {
+    const data = await DiaryService.updateDiary(diaryUpdateRequestDto);
+
+    if (!data) {
+      return res
+        .status(status.BAD_REQUEST)
+        .send(fail(status.BAD_REQUEST, message.OUT_OF_VALUE));
+    }
+
+    return res
+      .status(status.OK)
+      .send(success(status.OK, message.UPDATE_DIARY_SUCCESS, data));
+  } catch (error) {
+    const log = slackMessage(req.method, req.originalUrl, error, userId);
+    slack(log);
+
+    return res
+      .status(status.INTERNAL_SERVER_ERROR)
+      .send(fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
+
 const diaryController = {
   createDiary,
   getDiaryById,
   getOpenDiaries,
   deleteDiary,
+  updateDiary,
 };
 
 export default diaryController;
