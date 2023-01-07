@@ -3,6 +3,6 @@ import { CategoryController } from "../controllers";
 
 const router: Router = Router();
 
-router.get("/", CategoryController.getTopics);
+router.get("/topic", CategoryController.getTopics);
 
 export default router;
