@@ -4,8 +4,8 @@ import { UserController } from "../controllers";
 const router: Router = Router();
 
 router.patch("/", UserController.updateUserInfo);
-router.get("/diaries/:diaryId", userController.getUserDiaryDetail);
-router.get("/diaries", userController.getUserDiaryList);
-router.get("/", userController.getUserInfo);
+router.get("/diaries/:diaryId", UserController.getUserDiaryDetail);
+router.get("/diaries", UserController.getUserDiaryList);
+router.get("/", UserController.getUserInfo);
 
 export default router;

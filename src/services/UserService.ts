@@ -49,7 +49,7 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
   });
 
   if (data?.user_id !== +userId) {
-    return status.BAD_REQUEST;
+    return status.UNAUTHORIZED;
   }
 
   if (!data) {
@@ -64,6 +64,11 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
       category_id: true,
     },
   });
+
+
+  if (!categoryData) {
+    return status.INTERNAL_SERVER_ERROR;
+  }
 
   const categoryId = categoryData?.category_id as number;
 
@@ -135,7 +140,15 @@ const getUserDiaryList = async (userId: number) => {
         category_id: true,
       },
     });
+
+    if (!topic) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
     const categoryId = topic?.category_id as number;
+
+    if (!categoryId) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
 
     const category = await prisma.categories.findFirst({
       where: {
@@ -146,6 +159,10 @@ const getUserDiaryList = async (userId: number) => {
       },
     });
 
+    if (!category) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
+    
     const categoryContent = category?.content as string;
 
     const diary = await prisma.diaries.findUnique({
@@ -159,6 +176,10 @@ const getUserDiaryList = async (userId: number) => {
       },
     });
 
+    if (!diary) {
+      return status.INTERNAL_SERVER_ERROR;
+    }
+    
     const likeCnt = diary?._count.likes;
 
     const result = {
