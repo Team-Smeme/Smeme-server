@@ -12,6 +12,6 @@ router.post(
   ScrapController.createScrap,
 );
 
-router.get("/", ScrapController.getScrapsByUser);
+router.get("/", auth, ScrapController.getScrapsByUser);
 
 export default router;
