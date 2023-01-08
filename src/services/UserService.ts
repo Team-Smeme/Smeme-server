@@ -2,6 +2,7 @@ import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { PrismaClient } from "@prisma/client";
 import { UserRequestDto } from "../interfaces/user/UserRequestDto";
 import { status } from "../constants";
+import convertCategoryTopicToDto from "../utils/categoryTopic";
 const prisma = new PrismaClient();
 
 // user 정보 기입
@@ -48,41 +49,24 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
     },
   });
 
-  if (data?.user_id !== +userId) {
-    return status.UNAUTHORIZED;
-  }
-
   if (!data) {
     return null;
   }
 
-  const categoryData = await prisma.topics.findFirst({
-    where: {
-      id: data.topic_id,
-    },
-    select: {
-      category_id: true,
-    },
-  });
+  if (data.user_id !== +userId) {
+    return status.UNAUTHORIZED;
+  }
 
-  if (!categoryData) {
+  // 해당 일기의 카테고리 및 랜덤 주제 가져오기
+  const dto = await convertCategoryTopicToDto.convertTopicToDto(data.topic_id);
+
+  if (!dto) {
     return status.INTERNAL_SERVER_ERROR;
   }
 
-  const categoryId = categoryData?.category_id as number;
-
-  const category = await prisma.categories.findUnique({
-    where: {
-      id: categoryId,
-    },
-    select: {
-      content: true,
-    },
-  });
-
   const result = {
     content: data.content,
-    category: category?.content,
+    category: dto.category,
     isPublic: data.is_public,
     createdAt: data.created_at,
     likeCnt: data._count.likes,
