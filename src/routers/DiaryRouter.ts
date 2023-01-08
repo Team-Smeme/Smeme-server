@@ -23,7 +23,6 @@ router.post(
   [
     body("content").notEmpty().isLength({ min: 10 }),
     body("targetLang").notEmpty(),
-    body("category").notEmpty(),
     body("topic").notEmpty(),
     body("isPublic").notEmpty(),
   ],

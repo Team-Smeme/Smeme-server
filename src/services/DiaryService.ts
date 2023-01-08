@@ -11,6 +11,7 @@ import {
   OpenDiaryResponseDto,
 } from "../interfaces/diary/DiaryResponseDto";
 import { DiaryLikeDto } from "../interfaces/diary/DiaryLikeDto";
+import convertCategoryTopicToDto from "../utils/categoryTopic";
 
 const prisma = new PrismaClient();
 
@@ -25,14 +26,20 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
     return status.UNAUTHORIZED;
   }
 
-  const topic = await prisma.topics.findUnique({
-    where: {
-      content: diaryRequestDto.topic,
-    },
-  });
+  let topicId = 1;
 
-  if (!topic) {
-    return null;
+  if (diaryRequestDto.topic) {
+    const topic = await prisma.topics.findUnique({
+      where: {
+        content: diaryRequestDto.topic,
+      },
+    });
+
+    if (!topic) {
+      return null;
+    }
+
+    topicId = topic.id;
   }
 
   const date = dayjs().format("YYYY-MM-DD HH:mm");
@@ -40,7 +47,7 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
   const diary = await prisma.diaries.create({
     data: {
       user_id: +diaryRequestDto.userId,
-      topic_id: topic.id,
+      topic_id: topicId,
       content: diaryRequestDto.content,
       target_lang: diaryRequestDto.targetLang,
       is_public: diaryRequestDto.isPublic,
@@ -96,23 +103,9 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     return null;
   }
 
-  const topic = await prisma.topics.findUnique({
-    where: {
-      id: diary.topic_id,
-    },
-  });
+  const dto = await convertCategoryTopicToDto.convertTopicToDto(diary.topic_id);
 
-  if (!topic) {
-    return null;
-  }
-
-  const category = await prisma.categories.findUnique({
-    where: {
-      id: topic.category_id,
-    },
-  });
-
-  if (!category) {
+  if (!dto) {
     return status.INTERNAL_SERVER_ERROR;
   }
 
@@ -147,8 +140,8 @@ const getDiaryById = async (diaryId: number, userId: number) => {
   const data: DiaryResponseDto = {
     diaryId: diaryId,
     content: diary.content,
-    category: category.content,
-    topic: topic.content,
+    category: dto.category,
+    topic: dto.topic,
     likeCnt: likeCnt,
     createdAt: date,
     userId: writer.id,

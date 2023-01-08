@@ -48,6 +48,20 @@ const getUserDiaryDetail = async (req: Request, res: Response) => {
   try {
     const data = await UserService.getDiaryByUserId(diaryGetRequestDto);
 
+    if (data === status.UNAUTHORIZED) {
+      res
+        .status(status.UNAUTHORIZED)
+        .send(fail(status.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+
+    if (data === status.INTERNAL_SERVER_ERROR) {
+      res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .send(
+          fail(status.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+        );
+    }
+
     if (!data) {
       res
         .status(status.BAD_REQUEST)

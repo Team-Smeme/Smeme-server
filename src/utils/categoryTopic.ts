@@ -3,13 +3,13 @@ import { CategoryTopicDto } from "../interfaces/category/CategoryTopicDto";
 
 const prisma = new PrismaClient();
 
-const convertTopicToDto = async (topicId: number | null) => {
+const convertTopicToDto = async (topicId: number) => {
   const responseDto: CategoryTopicDto = {
     category: "",
     topic: "",
   };
 
-  if (!topicId) {
+  if (topicId === 0) {
     return responseDto;
   }
 
