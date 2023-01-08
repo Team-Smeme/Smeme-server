@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserController } from "../controllers";
 import { body } from "express-validator";
+import auth from "../middlewares/auth";
 const router: Router = Router();
 
 router.patch(
@@ -11,7 +12,7 @@ router.patch(
   ],
   UserController.updateUserInfo,
 );
-router.get("/diaries/:diaryId", UserController.getUserDiaryDetail);
+router.get("/diaries/:diaryId", auth, UserController.getUserDiaryDetail);
 router.get("/diaries", UserController.getUserDiaryList);
 router.get("/", UserController.getUserInfo);
 
