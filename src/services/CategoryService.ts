@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import {
   CategoryResponseDto,
-  RandomResponseDto,
+  RandomTopicResponseDto,
 } from "../interfaces/category/CategoryResponseDto";
 
 const prisma = new PrismaClient();
@@ -12,7 +12,7 @@ const getRandomTopic = async () => {
 
   const random = Math.round(Math.random() * (topics.length - 1));
 
-  const data: RandomResponseDto = {
+  const data: RandomTopicResponseDto = {
     id: topics[random].id,
     content: topics[random].content,
   };
