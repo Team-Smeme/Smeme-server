@@ -26,7 +26,7 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
     return status.UNAUTHORIZED;
   }
 
-  let topicId = 0;
+  let topicId = 1;
 
   if (diaryRequestDto.topic) {
     const topic = await prisma.topics.findUnique({
@@ -281,34 +281,21 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
     return status.BAD_REQUEST;
   }
 
-  const topic = await prisma.topics.findFirst({
-    where: {
-      id: data.topic_id,
-    },
-    select: {
-      category_id: true,
-    },
-  });
+  const dto = await convertCategoryTopicToDto.convertTopicToDto(data.topic_id);
 
-  const categoryId = topic?.category_id as number;
+  if (!dto) {
+    return status.INTERNAL_SERVER_ERROR;
+  }
 
-  const category = await prisma.categories.findFirst({
-    where: {
-      id: categoryId,
-    },
-    select: {
-      content: true,
-    },
-  });
-
-  const result = {
+  const diaryUpdateResponseDto = {
     content: data.content,
     isPublic: data.is_public,
-    category: category?.content as string,
+    topic: dto.topic,
+    category: dto.category,
     targetLang: data.target_lang,
   };
 
-  return result;
+  return diaryUpdateResponseDto;
 };
 
 const getLikeDiary = async (userId: number, diaryId: number) => {
