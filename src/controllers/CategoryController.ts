@@ -4,9 +4,9 @@ import { message, status } from "../constants";
 import { CategoryService } from "../services";
 import { fail, success } from "../utils/response";
 
-const getTopics = async (req: Request, res: Response) => {
+const getRandomTopic = async (req: Request, res: Response) => {
   try {
-    const data = await CategoryService.getTopics();
+    const data = await CategoryService.getRandomTopic();
 
     return res
       .status(status.OK)
@@ -39,7 +39,7 @@ const getCategories = async (req: Request, res: Response) => {
 };
 
 const categoryController = {
-  getTopics,
+  getRandomTopic,
   getCategories,
 };
 
