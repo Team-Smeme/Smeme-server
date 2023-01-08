@@ -14,4 +14,6 @@ router.post(
 
 router.get("/", auth, ScrapController.getScrapsByUser);
 
+router.delete("/:scrapId", auth, ScrapController.deleteScrapById);
+
 export default router;

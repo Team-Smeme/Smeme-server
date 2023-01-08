@@ -91,9 +91,48 @@ const getScrapsByUser = async (req: Request, res: Response) => {
   }
 };
 
+const deleteScrapById = async (req: Request, res: Response) => {
+  const { scrapId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const data = await ScrapService.deleteScrapById(+userId, +scrapId);
+
+    if (data === statusCode.UNAUTHORIZED) {
+      return res
+        .status(statusCode.UNAUTHORIZED)
+        .send(fail(statusCode.UNAUTHORIZED, message.INVALID_TOKEN));
+    }
+
+    if (data === statusCode.BAD_REQUEST) {
+      return res
+        .status(statusCode.BAD_REQUEST)
+        .send(fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
+    }
+
+    return res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, message.DELETE_SCRAP_SUCCESS));
+  } catch (error) {
+    const log = slackMessage(
+      req.method,
+      req.originalUrl,
+      error,
+      Number(scrapId),
+    );
+    slack(log);
+    return res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+      );
+  }
+};
+
 const scrapController = {
   createScrap,
   getScrapsByUser,
+  deleteScrapById,
 };
 
 export default scrapController;

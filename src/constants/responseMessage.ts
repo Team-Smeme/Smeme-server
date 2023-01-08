@@ -42,6 +42,7 @@ export default {
   // 스크랩
   SCRAP_SUCCESS: "구문 스크랩 성공",
   GET_SCRAP_LIST_SUCCESS: "스크랩 구문 목록 조회 성공",
+  DELETE_SCRAP_SUCCESS: "스크랩 구문 삭제 성공",
 
   // 주제 관련
   GET_TOPIC_SUCCESS: "랜덤 주제 조회 성공",

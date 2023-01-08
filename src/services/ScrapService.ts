@@ -75,9 +75,38 @@ const getScrapsByUser = async (userId: number) => {
   return result;
 };
 
+const deleteScrapById = async (userId: number, scrapId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return statusCode.UNAUTHORIZED;
+  }
+
+  const scrap = await prisma.scraps.findUnique({
+    where: {
+      id: scrapId,
+    },
+  });
+
+  if (!scrap) {
+    return statusCode.BAD_REQUEST;
+  }
+
+  await prisma.scraps.delete({
+    where: {
+      id: scrapId,
+    },
+  });
+};
+
 const scrapService = {
   createScrap,
   getScrapsByUser,
+  deleteScrapById,
 };
 
 export default scrapService;
