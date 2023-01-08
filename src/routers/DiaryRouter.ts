@@ -21,7 +21,6 @@ router.post(
   "/",
   auth,
   [
-    body("userId").notEmpty(),
     body("content").notEmpty().isLength({ min: 10 }),
     body("targetLang").notEmpty(),
     body("category").notEmpty(),
@@ -36,5 +35,7 @@ router.get("/:diaryId", auth, DiaryController.getDiaryById);
 router.get("/", auth, DiaryController.getOpenDiaries);
 
 router.delete("/:diaryId", auth, DiaryController.deleteDiary);
+
+router.post("/like", body("diaryId").notEmpty(), DiaryController.getLikeDiary);
 
 export default router;
