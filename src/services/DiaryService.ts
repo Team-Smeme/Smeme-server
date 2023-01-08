@@ -150,6 +150,13 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     hasLike: hasLike,
   };
 
+  await prisma.histories.create({
+    data: {
+      user_id: userId,
+      diary_id: diaryId,
+    },
+  });
+
   return data;
 };
 
