@@ -19,6 +19,7 @@ router.put(
 );
 router.post(
   "/",
+  auth,
   [
     body("userId").notEmpty(),
     body("content").notEmpty().isLength({ min: 10 }),
