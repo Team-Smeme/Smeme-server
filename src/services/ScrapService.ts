@@ -64,7 +64,12 @@ const getScrapsByUser = async (userId: number) => {
     result.push({
       id: scrap.id,
       paragraph: scrap.paragraph,
+      createdAt: dayjs(scrap.created_at).format("YYYY-MM-DD HH:mm"),
     });
+  });
+
+  result.sort(function (a, b) {
+    return a.createdAt > b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0;
   });
 
   return result;
