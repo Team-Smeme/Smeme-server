@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { body } from "express-validator";
 import { DiaryController } from "../controllers";
+import auth from "../middlewares/auth";
 
 const router: Router = Router();
 
 router.put(
   "/:diaryId",
+  auth,
   [
     body("userId").notEmpty(),
     body("isPublic").notEmpty(),
@@ -17,6 +19,7 @@ router.put(
 );
 router.post(
   "/",
+  auth,
   [
     body("content").notEmpty().isLength({ min: 10 }),
     body("targetLang").notEmpty(),
@@ -27,12 +30,17 @@ router.post(
   DiaryController.createDiary,
 );
 
-router.get("/:diaryId", DiaryController.getDiaryById);
+router.get("/:diaryId", auth, DiaryController.getDiaryById);
 
-router.get("/", DiaryController.getOpenDiaries);
+router.get("/", auth, DiaryController.getOpenDiaries);
 
-router.delete("/:diaryId", DiaryController.deleteDiary);
+router.delete("/:diaryId", auth, DiaryController.deleteDiary);
 
-router.post("/like", body("diaryId").notEmpty(), DiaryController.getLikeDiary);
+router.post(
+  "/like",
+  auth,
+  body("diaryId").notEmpty(),
+  DiaryController.getLikeDiary,
+);
 
 export default router;
