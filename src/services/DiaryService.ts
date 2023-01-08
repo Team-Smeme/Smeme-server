@@ -11,6 +11,7 @@ import {
   OpenDiaryResponseDto,
 } from "../interfaces/diary/DiaryResponseDto";
 import { DiaryLikeDto } from "../interfaces/diary/DiaryLikeDto";
+import convertCategoryTopicToDto from "../utils/categoryTopic";
 
 const prisma = new PrismaClient();
 
@@ -102,23 +103,9 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     return null;
   }
 
-  const topic = await prisma.topics.findUnique({
-    where: {
-      id: diary.topic_id,
-    },
-  });
+  const dto = await convertCategoryTopicToDto.convertTopicToDto(diary.topic_id);
 
-  if (!topic) {
-    return null;
-  }
-
-  const category = await prisma.categories.findUnique({
-    where: {
-      id: topic.category_id,
-    },
-  });
-
-  if (!category) {
+  if (!dto) {
     return status.INTERNAL_SERVER_ERROR;
   }
 
@@ -153,8 +140,8 @@ const getDiaryById = async (diaryId: number, userId: number) => {
   const data: DiaryResponseDto = {
     diaryId: diaryId,
     content: diary.content,
-    category: category.content,
-    topic: topic.content,
+    category: dto.category,
+    topic: dto.topic,
     likeCnt: likeCnt,
     createdAt: date,
     userId: writer.id,
