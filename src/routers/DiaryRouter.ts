@@ -13,7 +13,7 @@ router.put(
     body("isPublic").notEmpty(),
     body("content").notEmpty().isLength({ min: 10 }),
     body("targetLang").notEmpty(),
-    body("category").notEmpty(),
+    body("topic").notEmpty(),
   ],
   DiaryController.updateDiary,
 );
