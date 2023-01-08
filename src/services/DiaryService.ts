@@ -26,7 +26,7 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
     return status.UNAUTHORIZED;
   }
 
-  let topicId = 1;
+  let topicId = 0;
 
   if (diaryRequestDto.topic) {
     const topic = await prisma.topics.findUnique({
@@ -153,7 +153,10 @@ const getDiaryById = async (diaryId: number, userId: number) => {
   return data;
 };
 
-const getOpenDiaries = async (userId: number) => {
+const getOpenDiaries = async (
+  userId: number,
+  categoryId: number | undefined,
+) => {
   const user = await prisma.users.findUnique({
     where: {
       id: userId,
@@ -165,7 +168,23 @@ const getOpenDiaries = async (userId: number) => {
   }
 
   let diaries = await prisma.diaries.findMany();
+
   diaries = diaries.filter((diary) => diary.user_id != userId);
+
+  if (categoryId !== undefined) {
+    const topicIds = await prisma.topics.findMany({
+      where: {
+        category_id: categoryId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const arr = topicIds.map((topicId) => topicId.id);
+
+    diaries = diaries.filter((diary) => arr.includes(diary.topic_id));
+  }
 
   const result: OpenDiaryResponseDto[] = [];
 

@@ -92,9 +92,16 @@ const getDiaryById = async (req: Request, res: Response) => {
 
 const getOpenDiaries = async (req: Request, res: Response) => {
   const { userId } = req.body;
+  const { category } = req.query;
+
+  let categoryId = undefined;
+
+  if (category) {
+    categoryId = +category;
+  }
 
   try {
-    const data = await DiaryService.getOpenDiaries(+userId);
+    const data = await DiaryService.getOpenDiaries(+userId, categoryId);
 
     if (data === statusCode.UNAUTHORIZED) {
       return res
