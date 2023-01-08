@@ -25,14 +25,20 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
     return status.UNAUTHORIZED;
   }
 
-  const topic = await prisma.topics.findUnique({
-    where: {
-      content: diaryRequestDto.topic,
-    },
-  });
+  let topicId = 1;
 
-  if (!topic) {
-    return null;
+  if (diaryRequestDto.topic) {
+    const topic = await prisma.topics.findUnique({
+      where: {
+        content: diaryRequestDto.topic,
+      },
+    });
+
+    if (!topic) {
+      return null;
+    }
+
+    topicId = topic.id;
   }
 
   const date = dayjs().format("YYYY-MM-DD HH:mm");
@@ -40,7 +46,7 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
   const diary = await prisma.diaries.create({
     data: {
       user_id: +diaryRequestDto.userId,
-      topic_id: topic.id,
+      topic_id: topicId,
       content: diaryRequestDto.content,
       target_lang: diaryRequestDto.targetLang,
       is_public: diaryRequestDto.isPublic,
