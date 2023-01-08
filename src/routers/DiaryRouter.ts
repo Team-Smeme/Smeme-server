@@ -33,7 +33,7 @@ router.post(
 
 router.get("/:diaryId", auth, DiaryController.getDiaryById);
 
-router.get("/", DiaryController.getOpenDiaries);
+router.get("/", auth, DiaryController.getOpenDiaries);
 
 router.delete("/:diaryId", auth, DiaryController.deleteDiary);
 
