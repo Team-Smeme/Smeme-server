@@ -283,11 +283,15 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
 
   const dto = await convertCategoryTopicToDto.convertTopicToDto(data.topic_id);
 
+  if (!dto) {
+    return status.INTERNAL_SERVER_ERROR;
+  }
+
   const diaryUpdateResponseDto = {
     content: data.content,
     isPublic: data.is_public,
-    topic: dto?.topic,
-    category: dto?.category,
+    topic: dto.topic,
+    category: dto.category,
     targetLang: data.target_lang,
   };
 
