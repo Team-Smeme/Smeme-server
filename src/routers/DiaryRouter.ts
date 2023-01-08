@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { body } from "express-validator";
 import { DiaryController } from "../controllers";
+import auth from "../middlewares/auth";
 
 const router: Router = Router();
 
 router.put(
   "/:diaryId",
+  auth,
   [
     body("userId").notEmpty(),
     body("isPublic").notEmpty(),
