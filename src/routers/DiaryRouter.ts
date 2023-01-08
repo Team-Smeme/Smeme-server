@@ -36,6 +36,11 @@ router.get("/", auth, DiaryController.getOpenDiaries);
 
 router.delete("/:diaryId", auth, DiaryController.deleteDiary);
 
-router.post("/like", body("diaryId").notEmpty(), DiaryController.getLikeDiary);
+router.post(
+  "/like",
+  auth,
+  body("diaryId").notEmpty(),
+  DiaryController.getLikeDiary,
+);
 
 export default router;
