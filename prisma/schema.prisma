@@ -50,20 +50,21 @@ model likes {
 }
 
 model scraps {
-  id        Int     @id(map: "scraps_pk") @unique(map: "scraps_id_uindex") @default(autoincrement())
-  user_id   Int
-  diary_id  Int
-  paragraph String
-  diaries   diaries @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_diaries_id_fk")
-  users     users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_users_id_fk")
+  id         Int       @id(map: "scraps_pk") @unique(map: "scraps_id_uindex") @default(autoincrement())
+  user_id    Int
+  diary_id   Int
+  paragraph  String
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  diaries    diaries   @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_diaries_id_fk")
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_users_id_fk")
 }
 
 model topics {
-  id          Int        @id(map: "topics_pk") @unique(map: "topics_id_uindex") @default(autoincrement())
-  category_id Int
-  content     String     @unique(map: "topics_content_uindex") @db.VarChar(200)
+  id          Int         @id(map: "topics_pk") @unique(map: "topics_id_uindex") @default(autoincrement())
+  category_id Int?
+  content     String      @unique(map: "topics_content_uindex") @db.VarChar(200)
   diaries     diaries[]
-  categories  categories @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "topics_categories_id_fk")
+  categories  categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "topics_categories_id_fk")
 }
 
 model users {
