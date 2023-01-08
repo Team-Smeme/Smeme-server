@@ -3,7 +3,7 @@ export interface CategoryResponseDto {
   content: string;
 }
 
-export interface RandomResponseDto {
+export interface RandomTopicResponseDto {
   id: number;
   content: string;
 }
