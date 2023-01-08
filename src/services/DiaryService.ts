@@ -26,20 +26,14 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
     return status.UNAUTHORIZED;
   }
 
-  let topicId = 1;
+  const topic = await prisma.topics.findUnique({
+    where: {
+      content: diaryRequestDto.topic,
+    },
+  });
 
-  if (diaryRequestDto.topic) {
-    const topic = await prisma.topics.findUnique({
-      where: {
-        content: diaryRequestDto.topic,
-      },
-    });
-
-    if (!topic) {
-      return null;
-    }
-
-    topicId = topic.id;
+  if (!topic) {
+    return null;
   }
 
   const date = dayjs().format("YYYY-MM-DD HH:mm");
@@ -47,7 +41,7 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
   const diary = await prisma.diaries.create({
     data: {
       user_id: +diaryRequestDto.userId,
-      topic_id: topicId,
+      topic_id: topic.id,
       content: diaryRequestDto.content,
       target_lang: diaryRequestDto.targetLang,
       is_public: diaryRequestDto.isPublic,
@@ -103,9 +97,23 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     return null;
   }
 
-  const dto = await convertCategoryTopicToDto.convertTopicToDto(diary.topic_id);
+  const topic = await prisma.topics.findUnique({
+    where: {
+      id: diary.topic_id,
+    },
+  });
 
-  if (!dto) {
+  if (!topic) {
+    return null;
+  }
+
+  const category = await prisma.categories.findUnique({
+    where: {
+      id: topic.category_id,
+    },
+  });
+
+  if (!category) {
     return status.INTERNAL_SERVER_ERROR;
   }
 
@@ -140,8 +148,8 @@ const getDiaryById = async (diaryId: number, userId: number) => {
   const data: DiaryResponseDto = {
     diaryId: diaryId,
     content: diary.content,
-    category: dto.category,
-    topic: dto.topic,
+    category: category.content,
+    topic: topic.content,
     likeCnt: likeCnt,
     createdAt: date,
     userId: writer.id,
@@ -254,31 +262,17 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
   if (!data) {
     return status.BAD_REQUEST;
   }
+  // topic id와 category id를 이용하여 content
+  const dto = await convertCategoryTopicToDto.convertTopicToDto(data.topic_id);
 
-  const topic = await prisma.topics.findFirst({
-    where: {
-      id: data.topic_id,
-    },
-    select: {
-      category_id: true,
-    },
-  });
-
-  const categoryId = topic?.category_id as number;
-
-  const category = await prisma.categories.findFirst({
-    where: {
-      id: categoryId,
-    },
-    select: {
-      content: true,
-    },
-  });
+  if (!dto) {
+    return status.INTERNAL_SERVER_ERROR;
+  }
 
   const result = {
     content: data.content,
     isPublic: data.is_public,
-    category: category?.content as string,
+    topic: dto.topic,
     targetLang: data.target_lang,
   };
 
