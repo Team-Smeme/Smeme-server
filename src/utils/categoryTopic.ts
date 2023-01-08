@@ -9,7 +9,7 @@ const convertTopicToDto = async (topicId: number) => {
     topic: "",
   };
 
-  if (topicId === 1) {
+  if (topicId === 0) {
     return responseDto;
   }
 
