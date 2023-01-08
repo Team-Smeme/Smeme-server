@@ -39,8 +39,8 @@ const convertTopicToDto = async (topicId: number | null) => {
   return responseDto;
 };
 
-const topicConverter = {
+const convertCategoryTopicToDto = {
   convertTopicToDto,
 };
 
-export default topicConverter;
+export default convertCategoryTopicToDto;
