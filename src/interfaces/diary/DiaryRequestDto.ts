@@ -2,7 +2,7 @@ export interface DiaryRequestDto {
   userId: string;
   content: string;
   targetLang: string;
-  topic: string;
+  topicId: string;
   isPublic: boolean;
 }
 

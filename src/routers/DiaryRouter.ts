@@ -23,7 +23,7 @@ router.post(
   [
     body("content").notEmpty().isLength({ min: 10 }),
     body("targetLang").notEmpty(),
-    body("topic").notEmpty(),
+    body("topicId").notEmpty(),
     body("isPublic").notEmpty(),
   ],
   DiaryController.createDiary,
