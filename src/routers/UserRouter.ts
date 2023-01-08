@@ -13,7 +13,7 @@ router.patch(
   UserController.updateUserInfo,
 );
 router.get("/diaries/:diaryId", auth, UserController.getUserDiaryDetail);
-router.get("/diaries", UserController.getUserDiaryList);
+router.get("/diaries", auth, UserController.getUserDiaryList);
 router.get("/", UserController.getUserInfo);
 
 export default router;
