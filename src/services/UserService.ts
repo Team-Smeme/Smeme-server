@@ -113,7 +113,7 @@ const getUserDiaryList = async (userId: number) => {
     },
   });
 
-  const resultList = [];
+  const userDiaryListGetResponseDto = [];
 
   for (let i = 0; i < diaryList.length; i++) {
     const topic = await prisma.topics.findFirst({
@@ -128,26 +128,6 @@ const getUserDiaryList = async (userId: number) => {
     if (!topic) {
       return status.INTERNAL_SERVER_ERROR;
     }
-    const categoryId = topic?.category_id as number;
-
-    if (!categoryId) {
-      return status.INTERNAL_SERVER_ERROR;
-    }
-
-    const category = await prisma.categories.findFirst({
-      where: {
-        id: categoryId,
-      },
-      select: {
-        content: true,
-      },
-    });
-
-    if (!category) {
-      return status.INTERNAL_SERVER_ERROR;
-    }
-
-    const categoryContent = category?.content as string;
 
     const diary = await prisma.diaries.findUnique({
       where: {
@@ -164,21 +144,20 @@ const getUserDiaryList = async (userId: number) => {
       return status.INTERNAL_SERVER_ERROR;
     }
 
-    const likeCnt = diary?._count.likes;
+    const likeCnt = diary._count.likes;
 
-    const result = {
+    const UserDiaryGetResponseDto = {
       diaryId: diaryList[i].id,
       content: diaryList[i].content,
-      category: categoryContent,
       createdAt: dayjs(diaryList[i].created_at).format("YYYY-MM-DD HH:mm"),
       isPublic: diaryList[i].is_public,
       likeCnt: likeCnt,
     };
 
-    resultList.push(result);
+    userDiaryListGetResponseDto.push(UserDiaryGetResponseDto);
   }
 
-  return resultList;
+  return userDiaryListGetResponseDto;
 };
 
 const UserService = {
