@@ -31,7 +31,7 @@ router.post(
   DiaryController.createDiary,
 );
 
-router.get("/:diaryId", DiaryController.getDiaryById);
+router.get("/:diaryId", auth, DiaryController.getDiaryById);
 
 router.get("/", DiaryController.getOpenDiaries);
 
