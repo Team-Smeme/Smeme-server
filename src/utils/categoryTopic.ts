@@ -23,6 +23,10 @@ const convertTopicToDto = async (topicId: number) => {
     return null;
   }
 
+  if (!topic.category_id) {
+    return null;
+  }
+
   const category = await prisma.categories.findUnique({
     where: {
       id: topic.category_id,
