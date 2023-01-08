@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { CategoryResponseDto } from "../interfaces/category/CategoryResponseDto";
+import {
+  CategoryListResponseDto,
+  CategoryResponseDto,
+} from "../interfaces/category/CategoryResponseDto";
 
 const prisma = new PrismaClient();
 
@@ -37,10 +40,13 @@ const getTopics = async () => {
 const getCategories = async () => {
   const categories = await prisma.categories.findMany();
 
-  const result: string[] = [];
+  const result: CategoryListResponseDto[] = [];
 
   categories.map((category) => {
-    result.push(category.content);
+    result.push({
+      id: category.id,
+      content: category.content,
+    });
   });
 
   return {
