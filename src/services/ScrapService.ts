@@ -58,6 +58,7 @@ const getScrapsByUser = async (userId: number) => {
 
   scraps.map((scrap) => {
     result.push({
+      id: scrap.id,
       paragraph: scrap.paragraph,
     });
   });
