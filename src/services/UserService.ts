@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { UserRequestDto } from "../interfaces/user/UserRequestDto";
 import { status } from "../constants";
 import convertCategoryTopicToDto from "../utils/categoryTopic";
+import dayjs from "dayjs";
 const prisma = new PrismaClient();
 
 // user 정보 기입
@@ -68,7 +69,7 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
     content: data.content,
     category: dto.category,
     isPublic: data.is_public,
-    createdAt: data.created_at,
+    createdAt: dayjs(data.created_at).format("YYYY-MM-DD HH:mm"),
     likeCnt: data._count.likes,
   };
 
@@ -169,7 +170,7 @@ const getUserDiaryList = async (userId: number) => {
       diaryId: diaryList[i].id,
       content: diaryList[i].content,
       category: categoryContent,
-      createdAt: diaryList[i].created_at,
+      createdAt: dayjs(diaryList[i].created_at).format("YYYY-MM-DD HH:mm"),
       isPublic: diaryList[i].is_public,
       likeCnt: likeCnt,
     };
