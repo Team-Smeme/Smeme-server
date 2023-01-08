@@ -1,46 +1,29 @@
 import { PrismaClient } from "@prisma/client";
 import {
-  CategoryListResponseDto,
   CategoryResponseDto,
+  RandomTopicResponseDto,
 } from "../interfaces/category/CategoryResponseDto";
 
 const prisma = new PrismaClient();
 
-const getTopics = async () => {
-  const topics = await prisma.topics.findMany();
+const getRandomTopic = async () => {
+  let topics = await prisma.topics.findMany();
+  topics = topics.filter((topic) => topic.id !== 0);
 
-  const result: CategoryResponseDto[] = [];
+  const random = Math.round(Math.random() * (topics.length - 1));
 
-  const promises = topics.map(async (topic) => {
-    const category = await prisma.categories.findUnique({
-      where: {
-        id: topic.category_id,
-      },
-    });
+  const data: RandomTopicResponseDto = {
+    id: topics[random].id,
+    content: topics[random].content,
+  };
 
-    if (!category) {
-      throw new Error("none category");
-    }
-
-    const data: CategoryResponseDto = {
-      category: category.content,
-      topic: topic.content,
-    };
-
-    result.push(data);
-  });
-
-  await Promise.all(promises);
-
-  const random = Math.random() * (result.length - 1);
-
-  return result[random];
+  return data;
 };
 
 const getCategories = async () => {
   const categories = await prisma.categories.findMany();
 
-  const result: CategoryListResponseDto[] = [];
+  const result: CategoryResponseDto[] = [];
 
   categories.map((category) => {
     result.push({
@@ -55,7 +38,7 @@ const getCategories = async () => {
 };
 
 const categoryService = {
-  getTopics,
+  getRandomTopic,
   getCategories,
 };
 

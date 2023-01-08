@@ -1,9 +1,9 @@
 export interface CategoryResponseDto {
-  category: string;
-  topic: string;
+  id: number;
+  content: string;
 }
 
-export interface CategoryListResponseDto {
+export interface RandomTopicResponseDto {
   id: number;
   content: string;
 }
