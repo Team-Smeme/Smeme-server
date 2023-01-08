@@ -16,13 +16,13 @@ model categories {
 model diaries {
   id          Int         @id(map: "diaries_pk") @unique(map: "diaries_id_uindex") @default(autoincrement())
   user_id     Int
-  topic_id    Int
+  topic_id    Int?
   content     String
   target_lang String      @db.VarChar(10)
   is_public   Boolean
   created_at  DateTime    @db.Timestamp(6)
   updated_at  DateTime?   @db.Timestamp(6)
-  topics      topics      @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_topics_id_fk")
+  topics      topics?     @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_topics_id_fk")
   users       users       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_users_id_fk")
   histories   histories[]
   likes       likes[]
