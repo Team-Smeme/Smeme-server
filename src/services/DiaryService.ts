@@ -158,7 +158,11 @@ const getOpenDiaries = async (
     return status.UNAUTHORIZED;
   }
 
-  let diaries = await prisma.diaries.findMany();
+  let diaries = await prisma.diaries.findMany({
+    where: {
+      is_public: true,
+    },
+  });
 
   diaries = diaries.filter((diary) => diary.user_id != userId);
 
