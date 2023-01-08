@@ -168,14 +168,14 @@ const updateDiary = async (req: Request, res: Response) => {
   }
 
   const { diaryId } = req.params;
-  const { userId, content, isPublic, category, targetLang } = req.body;
+  const { userId, content, isPublic, topic, targetLang } = req.body;
 
   const diaryUpdateRequestDto: DiaryUpdateRequestDto = {
     userId: userId,
     diaryId: diaryId,
     content: content,
+    topic: topic,
     isPublic: isPublic,
-    category: category,
     targetLang: targetLang,
   };
 
