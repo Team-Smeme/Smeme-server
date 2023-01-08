@@ -14,6 +14,6 @@ router.patch(
 );
 router.get("/diaries/:diaryId", auth, UserController.getUserDiaryDetail);
 router.get("/diaries", auth, UserController.getUserDiaryList);
-router.get("/", UserController.getUserInfo);
+router.get("/", auth, UserController.getUserInfo);
 
 export default router;
