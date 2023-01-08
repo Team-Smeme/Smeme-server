@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import statusCode from "../constants/statusCode";
 import { ScrapRequestDto } from "../interfaces/scrap/ScrapRequestDto";
 import { ScrapResponseDto } from "../interfaces/scrap/ScrapResponseDto";
+import dayjs from "dayjs";
 
 const prisma = new PrismaClient();
 
@@ -26,11 +27,14 @@ const createScrap = async (scrapRequestDto: ScrapRequestDto) => {
     return statusCode.BAD_REQUEST;
   }
 
+  const date = dayjs().format("YYYY-MM-DD HH:mm");
+
   const scrap = await prisma.scraps.create({
     data: {
       user_id: +scrapRequestDto.userId,
       diary_id: +scrapRequestDto.diaryId,
       paragraph: scrapRequestDto.paragraph,
+      created_at: new Date(date),
     },
   });
 
