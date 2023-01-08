@@ -26,22 +26,6 @@ const createDiary = async (diaryRequestDto: DiaryRequestDto) => {
     return status.UNAUTHORIZED;
   }
 
-  let topicId = 1;
-
-  if (diaryRequestDto.topic) {
-    const topic = await prisma.topics.findUnique({
-      where: {
-        content: diaryRequestDto.topic,
-      },
-    });
-
-    if (!topic) {
-      return null;
-    }
-
-    topicId = topic.id;
-  }
-
   const date = dayjs().format("YYYY-MM-DD HH:mm");
 
   const diary = await prisma.diaries.create({
