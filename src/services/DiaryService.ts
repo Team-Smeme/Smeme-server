@@ -160,7 +160,10 @@ const getDiaryById = async (diaryId: number, userId: number) => {
   return data;
 };
 
-const getOpenDiaries = async (userId: number) => {
+const getOpenDiaries = async (
+  userId: number,
+  categoryId: number | undefined,
+) => {
   const user = await prisma.users.findUnique({
     where: {
       id: userId,
@@ -172,7 +175,23 @@ const getOpenDiaries = async (userId: number) => {
   }
 
   let diaries = await prisma.diaries.findMany();
+
   diaries = diaries.filter((diary) => diary.user_id != userId);
+
+  if (categoryId !== undefined) {
+    const topicIds = await prisma.topics.findMany({
+      where: {
+        category_id: categoryId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const arr = topicIds.map((topicId) => topicId.id);
+
+    diaries = diaries.filter((diary) => arr.includes(diary.topic_id));
+  }
 
   const result: OpenDiaryResponseDto[] = [];
 
