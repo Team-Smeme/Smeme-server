@@ -6,6 +6,7 @@ const router: Router = Router();
 
 router.patch(
   "/",
+  auth,
   [
     body("username").notEmpty().isLength({ min: 2, max: 16 }),
     body("bio").notEmpty(),
