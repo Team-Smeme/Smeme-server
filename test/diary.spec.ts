@@ -5,9 +5,9 @@ import config from "../src/config";
 
 dotenv.config();
 
-describe("Diary Test", () => {
-  let diaryId = -1;
+let diaryId = -1;
 
+describe("Diary Test", () => {
   it("일기 작성 성공", (done) => {
     req(app)
       .post("/api/v1/diaries")
@@ -120,3 +120,7 @@ describe("Diary Test", () => {
       });
   });
 });
+
+export default {
+  diaryId,
+};
