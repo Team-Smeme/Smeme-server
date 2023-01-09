@@ -1,3 +1,4 @@
+import { UserDiaryListGetResponseDto } from "./../interfaces/diary/DiaryResponseDto";
 import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { PrismaClient } from "@prisma/client";
 import { UserRequestDto } from "../interfaces/user/UserRequestDto";
@@ -119,13 +120,7 @@ const getUserDiaryList = async (userId: number, date: string | undefined) => {
     );
   }
 
-  const userDiaryListGetResponseDto: {
-    diaryId: number;
-    content: string;
-    createdAt: string;
-    isPublic: boolean;
-    likeCnt: number;
-  }[] = [];
+  const userDiaryListGetResponseDto: UserDiaryListGetResponseDto[] = [];
 
   const promises = diaries.map(async (diary) => {
     const likeCnt = await prisma.likes.count({
