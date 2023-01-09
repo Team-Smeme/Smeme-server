@@ -11,7 +11,7 @@
     "lint-staged": "lint-staged",
     "start:dev": "node dist/index.js",
     "prepare": "husky install",
-    "test": "yarn mocha test/* -r ts-node/register"
+    "test": "yarn mocha test/* -r ts-node/register --timeout 10000 -exit"
   },
   "devDependencies": {
     "@types/chai": "^4.3.4",

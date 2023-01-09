@@ -20,4 +20,9 @@ export default {
    * Slack
    */
   slackUrl: process.env.SLACK_URL as string,
+
+  /**
+   * Test
+   */
+  testAccessToken: process.env.TEST_ACCESS_TOKEN as string,
 };
