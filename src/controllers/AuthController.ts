@@ -11,8 +11,8 @@ const signIn = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res
-      .status(status.BAD_REQUEST)
-      .send(fail(status.BAD_REQUEST, message.NULL_VALUE));
+      .status(status.UNAUTHORIZED)
+      .send(fail(status.UNAUTHORIZED, message.INVALID_TOKEN));
   }
   const socialToken = req.headers.authorization
     ?.split(" ")
