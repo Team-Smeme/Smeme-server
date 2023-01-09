@@ -36,6 +36,7 @@ jobs:
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           echo SLACK_URL=${{ secrets.SLACK_URL }} >> .env
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo TEST_ACCESS_TOKEN=${{ secrets.TEST_ACCESS_TOKEN }} >> .env
           cat .env
 
       - name: build server files
