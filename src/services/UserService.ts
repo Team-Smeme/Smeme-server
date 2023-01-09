@@ -1,3 +1,4 @@
+import { UserDiaryListGetResponseDto } from "./../interfaces/diary/DiaryResponseDto";
 import { DiaryGetRequestDto } from "./../interfaces/diary/DiaryRequestDto";
 import { PrismaClient } from "@prisma/client";
 import { UserRequestDto } from "../interfaces/user/UserRequestDto";
@@ -96,7 +97,7 @@ const getUserInfo = async (userId: number) => {
   return result;
 };
 
-const getUserDiaryList = async (userId: number) => {
+const getUserDiaryList = async (userId: number, date: string | undefined) => {
   const user = await prisma.users.findUnique({
     where: {
       id: userId,
@@ -107,55 +108,41 @@ const getUserDiaryList = async (userId: number) => {
     return status.UNAUTHORIZED;
   }
 
-  const diaryList = await prisma.diaries.findMany({
+  let diaries = await prisma.diaries.findMany({
     where: {
       user_id: userId,
     },
   });
 
-  const userDiaryListGetResponseDto = [];
+  if (date !== undefined) {
+    diaries = diaries.filter(
+      (diary) => String(dayjs(diary.created_at).format("YYYY-MM-DD")) == date,
+    );
+  }
 
-  for (let i = 0; i < diaryList.length; i++) {
-    const topic = await prisma.topics.findFirst({
+  const userDiaryListGetResponseDto: UserDiaryListGetResponseDto[] = [];
+
+  const promises = diaries.map(async (diary) => {
+    const likeCnt = await prisma.likes.count({
       where: {
-        id: diaryList[i].topic_id,
-      },
-      select: {
-        category_id: true,
+        diary_id: diary.id,
       },
     });
-
-    if (!topic) {
-      return status.INTERNAL_SERVER_ERROR;
-    }
-
-    const diary = await prisma.diaries.findUnique({
-      where: {
-        id: diaryList[i].id,
-      },
-      include: {
-        _count: {
-          select: { likes: true },
-        },
-      },
-    });
-
-    if (!diary) {
-      return status.INTERNAL_SERVER_ERROR;
-    }
-
-    const likeCnt = diary._count.likes;
-
-    const UserDiaryGetResponseDto = {
-      diaryId: diaryList[i].id,
-      content: diaryList[i].content,
-      createdAt: dayjs(diaryList[i].created_at).format("YYYY-MM-DD HH:mm"),
-      isPublic: diaryList[i].is_public,
+    const data = {
+      diaryId: diary.id,
+      content: diary.content,
+      createdAt: dayjs(diary.created_at).format("YYYY-MM-DD HH:mm"),
+      isPublic: diary.is_public,
       likeCnt: likeCnt,
     };
 
-    userDiaryListGetResponseDto.push(UserDiaryGetResponseDto);
-  }
+    userDiaryListGetResponseDto.push(data);
+  });
+  await Promise.all(promises);
+
+  userDiaryListGetResponseDto.sort(function (a, b) {
+    return a.createdAt > b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0;
+  });
 
   return userDiaryListGetResponseDto;
 };
