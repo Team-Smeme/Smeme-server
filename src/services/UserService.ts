@@ -68,6 +68,8 @@ const getDiaryByUserId = async (diaryGetRequestDto: DiaryGetRequestDto) => {
 
   const result = {
     content: data.content,
+    topicId: data.topic_id,
+    topic: dto.topic,
     category: dto.category,
     isPublic: data.is_public,
     createdAt: dayjs(data.created_at).format("YYYY-MM-DD HH:mm"),
