@@ -282,6 +282,7 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
   const diaryUpdateResponseDto = {
     content: data.content,
     isPublic: data.is_public,
+    topicId: diaryUpdateRequestDto.topicId,
     topic: dto.topic,
     category: dto.category,
     targetLang: data.target_lang,
