@@ -1,5 +1,3 @@
-import path from "path";
-import { expect } from "chai";
 import app from "../src/index";
 import req from "supertest";
 import dotenv from "dotenv";
@@ -54,6 +52,28 @@ describe("Diary Test", () => {
       .get(`/api/v1/diaries/${diaryId}`)
       .set("Content-Type", "application/json")
       .set({ Authorization: `Bearer ${config.testAccessToken}` })
+      .expect(200)
+      .expect("Content-Type", /json/)
+      .then(() => {
+        done();
+      })
+      .catch((err) => {
+        console.error("=== Error === \n", err);
+        done(err);
+      });
+  });
+
+  it("일기 수정 성공", (done) => {
+    req(app)
+      .put(`/api/v1/diaries/${diaryId}`)
+      .set("Content-Type", "application/json")
+      .set({ Authorization: `Bearer ${config.testAccessToken}` })
+      .send({
+        content: "Hi, I'm a server developer of the smeme!",
+        targetLang: "en",
+        topicId: 0,
+        isPublic: false,
+      })
       .expect(200)
       .expect("Content-Type", /json/)
       .then(() => {
