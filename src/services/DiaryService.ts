@@ -253,12 +253,14 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
   if (!user) {
     return status.UNAUTHORIZED;
   }
+  const date = dayjs().format("YYYY-MM-DD HH:mm");
 
   const data = await prisma.diaries.update({
     data: {
       content: diaryUpdateRequestDto.content,
       is_public: diaryUpdateRequestDto.isPublic,
       target_lang: diaryUpdateRequestDto.targetLang,
+      updated_at: new Date(date),
     },
     where: {
       id: +diaryUpdateRequestDto.diaryId,
@@ -269,7 +271,9 @@ const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
     return status.BAD_REQUEST;
   }
 
-  const dto = await convertCategoryTopicToDto.convertTopicToDto(data.topic_id);
+  const dto = await convertCategoryTopicToDto.convertTopicToDto(
+    diaryUpdateRequestDto.topicId,
+  );
 
   if (!dto) {
     return status.INTERNAL_SERVER_ERROR;
