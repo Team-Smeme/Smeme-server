@@ -112,7 +112,7 @@ const getUserInfo = async (req: Request, res: Response) => {
 
 const getUserDiaryList = async (req: Request, res: Response) => {
   const { userId } = req.body;
-  const { date } = req.query;
+  const { date } = req.query as unknown as string | undefined;
 
   try {
     const data = await UserService.getUserDiaryList(+userId, date);
