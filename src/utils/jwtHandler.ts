@@ -10,7 +10,7 @@ const sign = (userId: number) => {
   };
 
   const accessToken = jwt.sign(payload, config.jwtSecret, {
-    expiresIn: "2h",
+    expiresIn: "30d",
   });
   return accessToken;
 };
