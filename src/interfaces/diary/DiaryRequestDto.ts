@@ -21,6 +21,6 @@ export interface DiaryUpdateRequestDto {
   diaryId: string;
   content: string;
   isPublic: boolean;
-  topic: string;
+  topicId: number;
   targetLang: string;
 }
