@@ -5,7 +5,7 @@ import config from "../src/config";
 
 dotenv.config();
 
-let diaryId = -1;
+let diaryId = 1;
 
 describe("Diary Test", () => {
   it("일기 작성 성공", (done) => {
@@ -121,6 +121,8 @@ describe("Diary Test", () => {
   });
 });
 
-export default {
+const diary = {
   diaryId,
 };
+
+export default diary;
