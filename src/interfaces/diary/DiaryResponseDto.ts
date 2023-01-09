@@ -21,3 +21,11 @@ export interface OpenDiaryResponseDto {
   hasLike: boolean;
   createdAt: string;
 }
+
+export interface UserDiaryListGetResponseDto {
+  diaryId: number;
+  content: string;
+  createdAt: string;
+  isPublic: boolean;
+  likeCnt: number;
+}
