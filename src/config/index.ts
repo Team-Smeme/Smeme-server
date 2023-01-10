@@ -25,4 +25,5 @@ export default {
    * Test
    */
   testAccessToken: process.env.TEST_ACCESS_TOKEN as string,
+  fixedAccessToken: process.env.FIXED_ACCESS_TOKEN as string,
 };
