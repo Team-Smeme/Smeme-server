@@ -146,7 +146,7 @@ const getUserDiaryList = async (userId: number, date: string | undefined) => {
     return a.createdAt > b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0;
   });
 
-  return userDiaryListGetResponseDto;
+  return { diaries: userDiaryListGetResponseDto };
 };
 
 const UserService = {
