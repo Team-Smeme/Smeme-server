@@ -240,7 +240,9 @@ const getOpenDiaries = async (
     return a.createdAt > b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0;
   });
 
-  return result;
+  return {
+    diaries: result,
+  };
 };
 
 const updateDiary = async (diaryUpdateRequestDto: DiaryUpdateRequestDto) => {
