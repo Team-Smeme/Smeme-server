@@ -87,11 +87,11 @@
 
 <br/>
 
-## Dependencies Module
+## 🌴 Dependencies Module
 
 <br/>
 
-## Server Architecture
+## 🏗 Server Architecture
 
 <br/>
 
