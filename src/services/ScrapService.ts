@@ -72,7 +72,7 @@ const getScrapsByUser = async (userId: number) => {
     return a.createdAt > b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0;
   });
 
-  return result;
+  return { scraps: result };
 };
 
 const deleteScrapById = async (userId: number, scrapId: number) => {
