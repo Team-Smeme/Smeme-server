@@ -88,6 +88,63 @@
 <br/>
 
 ## 🌴 Dependencies Module
+<b>package.ts</b>
+```
+{
+  "name": "seminar4",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "postinstall": "prisma generate",
+    "lint": "./node_modules/.bin/eslint .",
+    "lint-staged": "lint-staged",
+    "start:dev": "node dist/index.js",
+    "prepare": "husky install",
+    "test": "yarn mocha test/* -r ts-node/register --timeout 10000 -exit"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.11.9",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "chai": "^4.3.7",
+    "eslint": "^8.30.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.8.1",
+    "axios": "^1.2.2",
+    "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "husky": "^8.0.2",
+    "jsonwebtoken": "^9.0.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "prisma": "^4.8.1",
+    "typescript": "^4.9.4"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix"
+    ]
+  }
+}
+
+```
 
 <br/>
 
