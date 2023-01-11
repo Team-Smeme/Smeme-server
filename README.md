@@ -68,6 +68,12 @@
 
 <br/>
 
+## 🥫 ERD
+
+<img width="802" src="https://user-images.githubusercontent.com/81692211/210778101-46a8c449-cb02-4879-838e-5c1828af5747.png">
+
+<br/>
+
 ## 🗂 프로젝트 폴더 구조
 
 ```
@@ -149,11 +155,4 @@
 <br/>
 
 ## 🏗 Server Architecture
-
-<br/>
-
-## 🥫 ERD
-
-<img width="802" src="https://user-images.githubusercontent.com/81692211/210778101-46a8c449-cb02-4879-838e-5c1828af5747.png">
-
-<br/>
+<img width="999" alt="image" src="https://user-images.githubusercontent.com/55437339/211804011-138c6277-bd5c-4832-a9bd-04b8fb670a4c.png">
