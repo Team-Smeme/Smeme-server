@@ -1,10 +1,15 @@
 # SMEME-Server
 
-## ERD
+### 🛠 Used Stacks
+ ![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+ ![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+ ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+ ![PRISMA](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=Prisma&logoColor=white) 
+ ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
-<img width="802" src="https://user-images.githubusercontent.com/81692211/210778101-46a8c449-cb02-4879-838e-5c1828af5747.png">
+<br/>
 
-# 팀별 역할 분담
+## 👥 팀별 역할 분담
 
 |                **🌏 [김소현](https://github.com/thguss)**                 |                **🌏 [최윤한](https://github.com/unanchoi)**                 |
   |:-----------------------------------:|:-----------------------------------:|
@@ -12,29 +17,17 @@
 |                                 서버 개발자                                  |                                 서버 개발자                                 |
 |        프로젝트 세팅<br />서버 배포<br />DB 설계<br /> Diary, Category, Scrap API 작성<br /> Test Code 작성 <br />        |        프로젝트 세팅<br />서버 배포<br />DB 설계<br >User, Auth, Diary  API 작성<br /> Test Code 작성        |
 
-# 🗂 프로젝트 폴더 구조
+<br/>
 
-```
-3-Layer Architecture 기반
-
-📁 src
-|_ 📁 config
-|_ 📁 controllers
-|_ 📁 interfaces
-|_ 📁 modules
-|_ 📁 routes
-|_ 📁 services
-|_ 📁 test
-|_ index.ts
-
-```
-# Code Convention
+## 📏 Code Convention
 - Airbnb의 자바스크립트 style guide를 따른다.
 [Airbnb Github](https://github.com/airbnb/javascript)
 
 - husky를 이용하여, commit시에 formatting
 
-# Commit Convention
+<br/>
+
+## 🌴 Commit Convention
 - Header를 이용하여 최대한 변경사항을 설명하고, 필요시에 body에 변경사항에 대한 상세 내용을 적는다.
 
 | 태그 이름 | 설명 |
@@ -52,9 +45,9 @@
 | [IMPROVE] | 향상이 있을 때 사용 |
 | [REFACTOR] | 전면 수정이 있을 때 사용 |
 
-# ✨ Branch Strategy
+<br/>
 
-🌴 브랜치 <br />
+## ✨ Branch Strategy
 
 📌 브랜치 단위 <br />
 - 브랜치 단위 = 이슈 단위 = PR단위
@@ -66,8 +59,44 @@
 - 브랜치 규칙 → name_#이슈번호
 - ex) unan_#1, sohyeon_#2
 
+<br/>
 
-## API 명세서 초안
+## 📃 API 명세서 초안
 [API 명세서 Notion](https://carnation-hearing-eb3.notion.site/API-d7387bba98474e63a5085843188e537f )
 
-#### API 로직 구현 진척도 : 0%
+#### API 로직 구현 진척도 : 100%
+
+<br/>
+
+## 🗂 프로젝트 폴더 구조
+
+```
+3-Layer Architecture 기반
+
+📁 src
+|_ 📁 config
+|_ 📁 controllers
+|_ 📁 interfaces
+|_ 📁 modules
+|_ 📁 routes
+|_ 📁 services
+|_ 📁 test
+|_ index.ts
+
+```
+
+<br/>
+
+## Dependencies Module
+
+<br/>
+
+## Server Architecture
+
+<br/>
+
+## 🥫 ERD
+
+<img width="802" src="https://user-images.githubusercontent.com/81692211/210778101-46a8c449-cb02-4879-838e-5c1828af5747.png">
+
+<br/>
