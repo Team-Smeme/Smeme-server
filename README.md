@@ -1,5 +1,8 @@
 # SMEME-Server
 
+![image](https://user-images.githubusercontent.com/55437339/212035544-1d89cb8f-c0c3-4c9e-b0a0-087fc925b7cd.png)
+
+
 ### 🛠 Used Stacks
  ![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
  ![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
