@@ -134,12 +134,24 @@ const getDiaryById = async (diaryId: number, userId: number) => {
     hasLike: hasLike,
   };
 
-  await prisma.histories.create({
-    data: {
-      user_id: userId,
-      diary_id: diaryId,
-    },
-  });
+  const isSeen =
+    (await prisma.histories.count({
+      where: {
+        user_id: userId,
+        diary_id: diaryId,
+      },
+    })) > 0
+      ? true
+      : false;
+
+  if (!isSeen) {
+    await prisma.histories.create({
+      data: {
+        user_id: userId,
+        diary_id: diaryId,
+      },
+    });
+  }
 
   return data;
 };
