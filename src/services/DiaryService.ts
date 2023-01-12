@@ -166,7 +166,11 @@ const getOpenDiaries = async (
 
   diaries = diaries.filter((diary) => diary.user_id != userId);
 
-  if (categoryId !== undefined) {
+  if (categoryId === 0) {
+    diaries = diaries.filter((diary) => diary.topic_id === 0);
+  }
+
+  if (categoryId) {
     const topicIds = await prisma.topics.findMany({
       where: {
         category_id: categoryId,
