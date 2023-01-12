@@ -23,7 +23,7 @@ model diaries {
   created_at  DateTime    @db.Timestamp(6)
   updated_at  DateTime?   @db.Timestamp(6)
   topics      topics      @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_topics_id_fk")
-  users       users       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "diaries_users_id_fk")
+  users       users       @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "diaries_users_id_fk")
   histories   histories[]
   likes       likes[]
   scraps      scraps[]
@@ -33,8 +33,8 @@ model histories {
   id       Int     @id(map: "histories_pk") @unique(map: "histories_id_uindex") @default(autoincrement())
   user_id  Int
   diary_id Int
-  diaries  diaries @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "histories_diaries_id_fk")
-  users    users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "histories_users_id_fk")
+  diaries  diaries @relation(fields: [diary_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "histories_diaries_id_fk")
+  users    users   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "histories_users_id_fk")
 
   @@unique([user_id, diary_id], map: "histories_user_id_diary_id_uindex")
 }
@@ -43,8 +43,8 @@ model likes {
   id       Int     @id(map: "likes_pk") @unique(map: "likes_id_uindex") @default(autoincrement())
   user_id  Int
   diary_id Int
-  diaries  diaries @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "likes_diaries_id_fk")
-  users    users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "likes_users_id_fk")
+  diaries  diaries @relation(fields: [diary_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "likes_diaries_id_fk")
+  users    users   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "likes_users_id_fk")
 
   @@unique([user_id, diary_id], map: "likes_user_id_diary_id_uindex")
 }
@@ -55,7 +55,7 @@ model scraps {
   diary_id   Int
   paragraph  String
   created_at DateTime? @default(now()) @db.Timestamp(6)
-  diaries    diaries   @relation(fields: [diary_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_diaries_id_fk")
+  diaries    diaries   @relation(fields: [diary_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "scraps_diaries_id_fk")
   users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scraps_users_id_fk")
 }
 
